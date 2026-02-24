@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">PixelRamp logo</title>
+  <desc id="desc">Stylised ramp with pixel squares forming a rising arrow, purple-blue gradient.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6EE7B7" />
+      <stop offset="45%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#C084FC" />
+    </linearGradient>
+  </defs>
+  <!-- background rounded square -->
+  <rect x="4" y="4" width="120" height="120" rx="20" fill="#0f172a" />
+
+  <!-- ramp / arrow base -->
+  <path d="M22 86 L54 46 L86 74 L106 54 L106 94 L22 94 Z" fill="url(#g)" opacity="0.95" />
+
+  <!-- pixel accents (3x3 grid) -->
+  <rect x="28" y="62" width="8" height="8" fill="#0b1220" />
+  <rect x="38" y="52" width="8" height="8" fill="#0b1220" />
+  <rect x="48" y="42" width="8" height="8" fill="#0b1220" />
+
+  <rect x="68" y="70" width="8" height="8" fill="#0b1220" />
+  <rect x="78" y="60" width="8" height="8" fill="#0b1220" />
+  <rect x="88" y="50" width="8" height="8" fill="#0b1220" />
+
+  <!-- subtle inner shine -->
+  <ellipse cx="64" cy="72" rx="36" ry="20" fill="#ffffff10" />
+</svg>
