@@ -9,7 +9,8 @@ import { FadeIn, SlideIn, ScaleIn, StaggerContainer, StaggerItem } from '@/compo
 import { useRef, useState, useEffect } from 'react';
 
 // Draggable Element Component
-function DraggableElement({ children, className, initialX, initialY, scatterDistance = 50 }) {
+function DraggableElement({ children, className, initialX, initialY, scatterDistance = 50 }:
+  { children: React.ReactNode; className?: string; initialX?: number; initialY?: number; scatterDistance?: number }) {
   const [isDragging, setIsDragging] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const elementRef = useRef(null);
