@@ -95,6 +95,8 @@ export default function Home() {
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-slate-950"></div>
+          <div className="bg-radial-overlay" />
+          <div className="bg-animated-stripes" />
         </div>
         
         {/* Floating elements - Made draggable */}

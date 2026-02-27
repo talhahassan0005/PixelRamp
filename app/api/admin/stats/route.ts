@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase, collections } from '@/lib/db';
 import { sanitizeString } from '@/lib/validation';

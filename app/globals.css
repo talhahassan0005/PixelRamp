@@ -97,6 +97,23 @@
   animation: radialPulse 10s ease-in-out infinite;
 }
 
+/* animated diagonal stripes for subtle motion */
+@keyframes bgMove {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+.bg-animated-stripes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(135deg, rgba(99,102,241,0.02) 10%, transparent 10%), linear-gradient(315deg, rgba(139,92,246,0.02) 10%, transparent 10%);
+  background-size: 600% 600%, 600% 600%;
+  mix-blend-mode: overlay;
+  animation: bgMove 18s linear infinite;
+}
+
 /* hide scrollbar */
 .scrollbar-hide {
   -ms-overflow-style: none;
