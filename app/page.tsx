@@ -1,13 +1,92 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { ArrowRight, Code2, Palette, Rocket } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import { FadeIn, SlideIn, ScaleIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
+import { useRef, useState, useEffect } from 'react';
+
+// Draggable Element Component
+function DraggableElement({ children, className, initialX, initialY, scatterDistance = 50 }:
+  { children: React.ReactNode; className?: string; initialX?: number; initialY?: number; scatterDistance?: number }) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const elementRef = useRef(null);
+  
+  // Motion values for position
+  const x = useMotionValue(initialX || 0);
+  const y = useMotionValue(initialY || 0);
+  
+  // Random scatter positions
+  const [scatterX, scatterY] = useState(() => ({
+    x: (Math.random() - 0.5) * scatterDistance,
+    y: (Math.random() - 0.5) * scatterDistance
+  }));
+
+  useEffect(() => {
+    if (!isDragging && !isHovered) {
+      // Animate back to scatter position
+      animate(x, scatterX.x, { type: "spring", stiffness: 100, damping: 20 });
+      animate(y, scatterX.y, { type: "spring", stiffness: 100, damping: 20 });
+    } else if (!isDragging && isHovered) {
+      // Animate back to original position (0,0) when hovered but not dragging
+      animate(x, 0, { type: "spring", stiffness: 200, damping: 25 });
+      animate(y, 0, { type: "spring", stiffness: 200, damping: 25 });
+    }
+  }, [isDragging, isHovered, scatterX.x, scatterX.y]);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  return (
+    <motion.div
+      ref={elementRef}
+      drag
+      dragMomentum={false}
+      dragElastic={0.1}
+      onDragStart={() => setIsDragging(true)}
+      onDragEnd={() => {
+        setIsDragging(false);
+        // Animate to scatter position after drag ends
+        if (!isHovered) {
+          animate(x, scatterX.x, { type: "spring", stiffness: 100, damping: 20 });
+          animate(y, scatterX.y, { type: "spring", stiffness: 100, damping: 20 });
+        }
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ x, y }}
+      className={`cursor-grab active:cursor-grabbing ${className}`}
+      whileTap={{ scale: 1.05 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function Home() {
+  // Create refs for different sections to apply scattering
+  const heroContentRef = useRef(null);
+  
+  // Generate random scatter values for each element
+  const [scatterPositions] = useState(() => ({
+    badge: { x: (Math.random() - 0.5) * 60, y: (Math.random() - 0.5) * 40 },
+    heading1: { x: (Math.random() - 0.5) * 80, y: (Math.random() - 0.5) * 50 },
+    heading2: { x: (Math.random() - 0.5) * 80, y: (Math.random() - 0.5) * 50 },
+    paragraph: { x: (Math.random() - 0.5) * 100, y: (Math.random() - 0.5) * 60 },
+    buttons: { x: (Math.random() - 0.5) * 120, y: (Math.random() - 0.5) * 70 },
+    badge1: { x: (Math.random() - 0.5) * 40, y: (Math.random() - 0.5) * 30 },
+    badge2: { x: (Math.random() - 0.5) * 40, y: (Math.random() - 0.5) * 30 },
+    badge3: { x: (Math.random() - 0.5) * 40, y: (Math.random() - 0.5) * 30 },
+  }));
+
   return (
     <>
       {/* Hero Section */}
@@ -16,18 +95,23 @@ export default function Home() {
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-slate-950"></div>
+          <div className="bg-radial-overlay" />
+          <div className="bg-animated-stripes" />
         </div>
         
-        {/* Floating elements */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
-          >
+        {/* Floating elements - Made draggable */}
+        <DraggableElement className="absolute top-20 left-10 w-72 h-72" initialX={scatterPositions.badge1.x} initialY={scatterPositions.badge1.y} scatterDistance={40}>
+          <div className="w-full h-full bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
+        </DraggableElement>
+        
+        <DraggableElement className="absolute bottom-20 right-10 w-96 h-96" initialX={scatterPositions.badge2.x} initialY={scatterPositions.badge2.y} scatterDistance={60}>
+          <div className="w-full h-full bg-purple-600/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        </DraggableElement>
+        
+        {/* Main content container */}
+        <div className="text-center relative z-10 w-full">
+          {/* Trust badge - Made draggable */}
+          <DraggableElement className="mb-8 flex justify-center" initialX={scatterPositions.badge.x} initialY={scatterPositions.badge.y} scatterDistance={40}>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium mb-8 backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -35,33 +119,32 @@ export default function Home() {
               </span>
               Trusted by 300+ Companies Worldwide
             </div>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
-          >
-            Build Your Digital
-            <br />
-            <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">Future Today</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-slate-300 mb-10 max-w-4xl mx-auto leading-relaxed"
-          >
-            Transform your vision into reality with enterprise-grade software solutions.
-            <br className="hidden md:block" />
-            From MVP to scale, we deliver excellence at every stage.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
+          </DraggableElement>
+          
+          {/* Heading parts - Made draggable individually */}
+          <DraggableElement className="flex justify-center" initialX={scatterPositions.heading1.x} initialY={scatterPositions.heading1.y} scatterDistance={50}>
+            <h1 className="text-6xl md:text-8xl font-bold mb-2 leading-tight">
+              Build Your Digital
+            </h1>
+          </DraggableElement>
+          
+          <DraggableElement className="flex justify-center" initialX={scatterPositions.heading2.x} initialY={scatterPositions.heading2.y} scatterDistance={50}>
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">Future Today</span>
+            </h1>
+          </DraggableElement>
+          
+          {/* Paragraph - Made draggable */}
+          <DraggableElement className="flex justify-center" initialX={scatterPositions.paragraph.x} initialY={scatterPositions.paragraph.y} scatterDistance={60}>
+            <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-4xl mx-auto leading-relaxed">
+              Transform your vision into reality with enterprise-grade software solutions.
+              <br className="hidden md:block" />
+              From MVP to scale, we deliver excellence at every stage.
+            </p>
+          </DraggableElement>
+          
+          {/* Buttons - Made draggable */}
+          <DraggableElement className="flex flex-col sm:flex-row gap-4 justify-center items-center" initialX={scatterPositions.buttons.x} initialY={scatterPositions.buttons.y} scatterDistance={70}>
             <Link href="/contact">
               <Button className="flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-600/30">
                 Start Your Project <ArrowRight size={20} />
@@ -70,15 +153,10 @@ export default function Home() {
             <Link href="/services">
               <Button variant="secondary" className="px-8 py-4 text-lg border-slate-600 hover:border-blue-500 hover:bg-slate-800/50 backdrop-blur-sm">View Our Work</Button>
             </Link>
-          </motion.div>
+          </DraggableElement>
           
-          {/* Trust badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-16 flex flex-wrap justify-center gap-8 items-center text-slate-500 text-sm"
-          >
+          {/* Trust badges - Made draggable */}
+          <DraggableElement className="mt-16 flex flex-wrap justify-center gap-8 items-center text-slate-500 text-sm" initialX={scatterPositions.badge3.x} initialY={scatterPositions.badge3.y} scatterDistance={40}>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
                 <span className="text-blue-400 font-bold">✓</span>
@@ -97,10 +175,11 @@ export default function Home() {
               </div>
               <span>24/7 Support</span>
             </div>
-          </motion.div>
+          </DraggableElement>
         </div>
       </Section>
 
+      {/* Rest of the sections remain the same */}
       {/* Features Preview */}
       <Section className="bg-slate-950 border-t border-slate-800">
         <FadeIn className="text-center mb-16">

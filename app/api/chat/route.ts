@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { isNonEmptyString } from '@/lib/validation';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -44,9 +45,12 @@ Your goal: Understand requirements, suggest appropriate tier, and collect contac
 export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: 'Invalid input: messages array required' }, { status: 400 });
+    }
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         ...messages,
@@ -55,7 +59,8 @@ export async function POST(req: NextRequest) {
       max_tokens: 500,
     });
 
-    return NextResponse.json({ message: completion.choices[0].message.content });
+    const text = completion.choices?.[0]?.message?.content || '';
+    return NextResponse.json({ message: text });
   } catch (error) {
     console.error('Chat error:', error);
     return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });
