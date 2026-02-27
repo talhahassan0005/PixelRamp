@@ -1,9 +1,15 @@
-'use client';
+"use client";
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer on auth pages (login/signup)
+  if (pathname && pathname.startsWith('/auth')) return null;
+
   return (
     <footer className="bg-slate-900 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
