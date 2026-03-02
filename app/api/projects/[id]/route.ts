@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase, collections } from '@/lib/db';
 import { sanitizeString, isNonEmptyString } from '@/lib/validation';
+import { ObjectId } from 'mongodb';
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,7 +11,7 @@ export async function GET(req: NextRequest) {
     if (!isNonEmptyString(id)) return NextResponse.json({ error: 'Missing project id' }, { status: 400 });
 
     const db = await getDatabase();
-    const proj = await db.collection(collections.projects).findOne({ _id: sanitizeString(id) });
+    const proj = await db.collection(collections.projects).findOne({ _id: new ObjectId(id) });
     return NextResponse.json({ project: proj });
   } catch (err) {
     console.error('Project details error', err);
@@ -36,7 +37,7 @@ export async function PATCH(req: NextRequest) {
     update.updatedAt = new Date();
 
     const db = await getDatabase();
-    const result = await db.collection(collections.projects).updateOne({ _id: sanitizeString(id) }, { $set: update });
+    const result = await db.collection(collections.projects).updateOne({ _id: new ObjectId(id) }, { $set: update });
     if (result.matchedCount === 0) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     return NextResponse.json({ success: true });
   } catch (err) {
@@ -53,7 +54,7 @@ export async function DELETE(req: NextRequest) {
     if (!isNonEmptyString(id)) return NextResponse.json({ error: 'Missing project id' }, { status: 400 });
 
     const db = await getDatabase();
-    const result = await db.collection(collections.projects).deleteOne({ _id: sanitizeString(id) });
+    const result = await db.collection(collections.projects).deleteOne({ _id: new ObjectId(id) });
     if (result.deletedCount === 0) return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     return NextResponse.json({ success: true });
   } catch (err) {
@@ -61,4 +62,3 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
   }
 }
-
