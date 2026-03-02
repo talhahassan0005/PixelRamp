@@ -26,8 +26,8 @@
   }
   
   .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 3s ease infinite;
+    background-size: 300% 300%;
+    animation: gradient 8s ease-in-out infinite;
   }
 }
 
@@ -40,11 +40,85 @@
   }
 }
 
+@keyframes drift {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); }
+  25% { transform: translateY(-8px) translateX(6px) rotate(1deg); }
+  50% { transform: translateY(0px) translateX(0) rotate(-1deg); }
+  75% { transform: translateY(8px) translateX(-6px) rotate(0.5deg); }
+  100% { transform: translateY(0) translateX(0) rotate(0deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes headingPop {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.98); filter: blur(2px); }
+  60% { opacity: 1; transform: translateY(0) scale(1.02); filter: blur(0); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.visible-shape {
+  will-change: transform, opacity; 
+}
+
+.heading-animate {
+  animation: headingPop 900ms cubic-bezier(.2,.8,.2,1) both;
+}
+
 @keyframes gradient {
-  0%, 100% {
+  0% {
     background-position: 0% 50%;
+    filter: brightness(0.9);
   }
   50% {
     background-position: 100% 50%;
+    filter: brightness(1.05);
   }
+  100% {
+    background-position: 0% 50%;
+    filter: brightness(0.95);
+  }
+}
+
+/* subtle animated radial highlights */
+@keyframes radialPulse {
+  0% { opacity: 0.04; transform: scale(1); }
+  50% { opacity: 0.12; transform: scale(1.05); }
+  100% { opacity: 0.04; transform: scale(1); }
+}
+
+.bg-radial-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 10% 20%, rgba(99,102,241,0.06), transparent 20%), radial-gradient(circle at 90% 80%, rgba(139,92,246,0.06), transparent 18%);
+  animation: radialPulse 10s ease-in-out infinite;
+}
+
+/* animated diagonal stripes for subtle motion */
+@keyframes bgMove {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+.bg-animated-stripes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(135deg, rgba(99,102,241,0.02) 10%, transparent 10%), linear-gradient(315deg, rgba(139,92,246,0.02) 10%, transparent 10%);
+  background-size: 600% 600%, 600% 600%;
+  mix-blend-mode: overlay;
+  animation: bgMove 18s linear infinite;
+}
+
+/* hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
