@@ -56,6 +56,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (err) {
+      console.warn('Logout failed:', err);
+    }
     setUser(null);
     localStorage.removeItem('user');
   };
