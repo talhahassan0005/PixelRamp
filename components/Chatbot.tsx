@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, X, MessageCircle } from 'lucide-react';
+import { Send, X, MessageCircle, Trash2 } from 'lucide-react';
 import { ChatMessage } from '@/types';
 import Button from './ui/Button';
 
@@ -12,11 +12,71 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [chatHistory, setChatHistory] = useState<{ id: string; title: string; messages: ChatMessage[] }[]>([]);
+  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('chatHistory');
+    if (saved) setChatHistory(JSON.parse(saved));
+  }, []);
+
+  const saveCurrentChat = () => {
+    if (messages.length <= 1) return;
+    const title = messages[1]?.content.slice(0, 30) + '...' || 'New Chat';
+    const chatId = currentChatId || Date.now().toString();
+    const updated = chatHistory.filter(c => c.id !== chatId);
+    updated.unshift({ id: chatId, title, messages });
+    setChatHistory(updated);
+    localStorage.setItem('chatHistory', JSON.stringify(updated));
+    setCurrentChatId(chatId);
+  };
+
+  const loadChat = (id: string) => {
+    const chat = chatHistory.find(c => c.id === id);
+    if (chat) {
+      setMessages(chat.messages);
+      setCurrentChatId(id);
+      setShowHistory(false);
+    }
+  };
+
+  const deleteChat = (id: string) => {
+    const updated = chatHistory.filter(c => c.id !== id);
+    setChatHistory(updated);
+    localStorage.setItem('chatHistory', JSON.stringify(updated));
+    if (currentChatId === id) {
+      setMessages([{ role: 'assistant', content: 'Hello! How can I help you with your project today?', timestamp: new Date() }]);
+      setCurrentChatId(null);
+    }
+  };
+
+  const newChat = () => {
+    saveCurrentChat();
+    setMessages([{ role: 'assistant', content: 'Hello! How can I help you with your project today?', timestamp: new Date() }]);
+    setCurrentChatId(null);
+    setShowHistory(false);
+  };
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      const detail = e?.detail || {};
+      setIsOpen(true);
+      if (detail.projectName) {
+        setMessages((prev) => [
+          ...prev,
+          { role: 'assistant', content: `Opening chat for project: ${detail.projectName}`, timestamp: new Date() },
+        ]);
+      }
+    };
+    window.addEventListener('openChatbot', handler as EventListener);
+    return () => window.removeEventListener('openChatbot', handler as EventListener);
+  }, []);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -37,6 +97,7 @@ export default function Chatbot() {
 
       const data = await res.json();
       setMessages((prev) => [...prev, { role: 'assistant', content: data.message, timestamp: new Date() }]);
+      setTimeout(saveCurrentChat, 500);
     } catch (error) {
       console.error('Chat error:', error);
     } finally {
@@ -61,14 +122,38 @@ export default function Chatbot() {
         <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-slate-800 rounded-lg border border-slate-700 shadow-2xl flex flex-col z-50">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-900 rounded-t-lg">
-            <h3 className="font-semibold text-lg">AI Assistant</h3>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-slate-400 hover:text-white transition-colors"
-            >
-              <X size={24} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setShowHistory(!showHistory)} className="text-slate-400 hover:text-white">
+                <MessageCircle size={20} />
+              </button>
+              <h3 className="font-semibold text-lg">AI Assistant</h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <button onClick={newChat} className="text-slate-400 hover:text-white text-sm">New</button>
+              <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white">
+                <X size={24} />
+              </button>
+            </div>
           </div>
+
+          {/* Chat History Sidebar */}
+          {showHistory && (
+            <div className="absolute left-0 top-16 w-64 h-[calc(100%-4rem)] bg-slate-900 border-r border-slate-700 p-3 overflow-y-auto">
+              <h4 className="text-sm font-semibold mb-2">Chat History</h4>
+              <div className="space-y-2">
+                {chatHistory.map(chat => (
+                  <div key={chat.id} className="flex items-center justify-between p-2 bg-slate-800 rounded hover:bg-slate-700">
+                    <button onClick={() => loadChat(chat.id)} className="flex-1 text-left text-sm truncate">
+                      {chat.title}
+                    </button>
+                    <button onClick={() => deleteChat(chat.id)} className="text-rose-400 hover:text-rose-300">
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">

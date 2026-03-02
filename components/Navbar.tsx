@@ -21,7 +21,8 @@ export default function Navbar() {
   const pathname = usePathname();
 
   // Hide navbar on auth pages (login/signup)
-  if (pathname && pathname.startsWith('/auth')) return null;
+  // Hide navbar on auth pages (login/signup) and dashboard/project pages
+  if (pathname && (pathname.startsWith('/auth') || pathname.startsWith('/dashboard') || pathname.startsWith('/projects'))) return null;
 
   return (
     <nav className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800">
