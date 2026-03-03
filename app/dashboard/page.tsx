@@ -7,7 +7,6 @@ import { Bell, CreditCard, Zap, Clock } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ProjectTier } from '@/types';
 import TierSelector from '@/components/TierSelector';
-import Chatbot from '@/components/Chatbot';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import Button from '@/components/ui/Button';
 // replaced Section with native div wrapper to avoid JSX parse issue
@@ -16,7 +15,7 @@ import Sparkline from '@/components/ui/Sparkline';
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth();
   const [selectedTier, setSelectedTier] = useState(null as ProjectTier | null);
-  const [showChat, setShowChat] = useState(false);
+  
   const [projects, setProjects] = useState([] as { id: string; name: string; status: string; updated: string }[]);
   const [projectsLoading, setProjectsLoading] = useState(false);
   const [projectsError, setProjectsError] = useState(null as string | null);
