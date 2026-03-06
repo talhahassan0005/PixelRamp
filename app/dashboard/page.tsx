@@ -3,28 +3,26 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Bell, CreditCard, Zap, Clock } from 'lucide-react';
+import { Bell, CreditCard, Zap, Clock, Settings, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { ProjectTier } from '@/types';
 import TierSelector from '@/components/TierSelector';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import Button from '@/components/ui/Button';
 // replaced Section with native div wrapper to avoid JSX parse issue
 import Sparkline from '@/components/ui/Sparkline';
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth();
+  const { t } = useLanguage();
   const [selectedTier, setSelectedTier] = useState(null as ProjectTier | null);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   
   const [projects, setProjects] = useState([] as { id: string; name: string; status: string; updated: string }[]);
   const [projectsLoading, setProjectsLoading] = useState(false);
   const [projectsError, setProjectsError] = useState(null as string | null);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications] = useState([
-    { id: 'n1', text: 'Invoice #102 is due in 3 days', time: '3d' },
-    { id: 'n2', text: 'New message from Project Lead', time: '1d' },
-    { id: 'n3', text: 'Deployment succeeded for Website Refresh', time: '2h' },
-  ]);
   const [invoices] = useState([
     { id: 'inv1', name: 'Invoice #101', amount: '£420', status: 'Due' },
     { id: 'inv2', name: 'Invoice #100', amount: '£1,200', status: 'Paid' },
@@ -204,35 +202,41 @@ export default function DashboardPage() {
         <div className="flex-1 px-6 py-8">
           <div className="flex items-start justify-between mb-8">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold">Welcome back, <span className="text-blue-400">{displayName}</span></h1>
-              <p className="text-slate-400 mt-2">Overview of your projects, billing and quick actions</p>
+              <h1 className="text-3xl md:text-4xl font-bold">{t('welcome_back_user')}, <span className="text-blue-400">{displayName}</span></h1>
+              <p className="text-slate-400 mt-2">{t('overview_subtitle')}</p>
             </div>
 
             <div className="flex items-center gap-3 relative">
-              <button aria-label="Notifications" onClick={() => setShowNotifications(s => !s)} className="relative p-2 rounded hover:bg-slate-800/50">
-                <Bell className="text-slate-300" />
-                <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-xs rounded-full px-1">{notifications.length}</span>
-              </button>
-              {showNotifications && (
-                <div className="absolute right-0 mt-12 w-80 bg-slate-900 border border-slate-800 rounded shadow-lg z-50">
-                  <div className="p-3 border-b border-slate-800">
-                    <p className="font-semibold">Notifications</p>
-                  </div>
-                  <div className="p-3 space-y-2">
-                    {notifications.map(n => (
-                      <div key={n.id} className="text-sm text-slate-300">
-                        <p>{n.text}</p>
-                        <p className="text-xs text-slate-500">{n.time}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="p-3 border-t border-slate-800 text-center">
-                    <button className="text-sm text-blue-400">View all</button>
-                  </div>
-                </div>
-              )}
-
-              <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-slate-300">{(displayName || 'U')[0].toUpperCase()}</div>
+              <LanguageSelector />
+              <div className="relative">
+                <button 
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-slate-300 hover:bg-slate-700 transition-colors"
+                >
+                  {(displayName || 'U')[0].toUpperCase()}
+                </button>
+                {showProfileDropdown && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setShowProfileDropdown(false)} />
+                    <div className="absolute right-0 mt-2 w-48 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-50">
+                      <button
+                        onClick={() => { setActiveTab('settings'); setShowProfileDropdown(false); }}
+                        className="w-full text-left px-4 py-3 hover:bg-slate-800 flex items-center gap-3 transition-colors first:rounded-t-lg"
+                      >
+                        <Settings size={16} />
+                        {t('settings')}
+                      </button>
+                      <button
+                        onClick={async () => { await signOut(); window.location.href = '/auth'; }}
+                        className="w-full text-left px-4 py-3 hover:bg-slate-800 flex items-center gap-3 transition-colors last:rounded-b-lg text-red-400 hover:text-red-300"
+                      >
+                        <LogOut size={16} />
+                        {t('logout')}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
@@ -241,28 +245,28 @@ export default function DashboardPage() {
           {/* Overview stats */}
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div className="p-4 bg-slate-800 rounded-lg border border-slate-700">
-              <p className="text-sm text-slate-400">Active Projects</p>
+              <p className="text-sm text-slate-400">{t('active_projects')}</p>
               <div className="flex items-center justify-between">
                 <p className="text-2xl font-bold">{projects.length || 3}</p>
                 <Sparkline data={[5, 9, 7, 12, 10, 14, 13]} />
               </div>
             </div>
             <div className="p-4 bg-slate-800 rounded-lg border border-slate-700">
-              <p className="text-sm text-slate-400">Open Tickets</p>
+              <p className="text-sm text-slate-400">{t('open_tickets')}</p>
               <div className="flex items-center justify-between">
                 <p className="text-2xl font-bold">{2}</p>
                 <Sparkline data={[2, 3, 2, 4, 1, 2]} stroke="#34d399" fill="rgba(52,211,153,0.08)" />
               </div>
             </div>
             <div className="p-4 bg-slate-800 rounded-lg border border-slate-700">
-              <p className="text-sm text-slate-400">Monthly Spend</p>
+              <p className="text-sm text-slate-400">{t('monthly_spend')}</p>
               <div className="flex items-center justify-between">
                 <p className="text-2xl font-bold">£{monthlySpend}</p>
                 <Sparkline data={[400, 500, 450, 600, 520, 480]} stroke="#f97316" fill="rgba(249,115,22,0.08)" />
               </div>
             </div>
             <div className="p-4 bg-slate-800 rounded-lg border border-slate-700">
-              <p className="text-sm text-slate-400">Support Level</p>
+              <p className="text-sm text-slate-400">{t('support_level')}</p>
               <p className="text-2xl font-bold">Standard</p>
             </div>
           </motion.div>
@@ -270,7 +274,7 @@ export default function DashboardPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-6">
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-            <h2 className="text-xl font-semibold mb-4">Projects</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('projects')}</h2>
             <div className="space-y-3">
               {projectsLoading && <div className="text-sm text-slate-400">Loading projects...</div>}
               {projectsError && <div className="text-sm text-rose-400">{projectsError}</div>}
@@ -297,7 +301,7 @@ export default function DashboardPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-            <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('recent_activity')}</h2>
             <div className="space-y-3">
               {activities.map(a => (
                 <div key={a.id} className="text-sm text-slate-300">
@@ -311,16 +315,16 @@ export default function DashboardPage() {
 
             <aside className="space-y-6">
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-            <h3 className="text-lg font-semibold mb-3">Quick Actions</h3>
+            <h3 className="text-lg font-semibold mb-3">{t('quick_actions')}</h3>
             <div className="flex flex-col gap-3">
-              <Button onClick={() => router.push('/contact')} className="w-full flex items-center justify-center gap-2"><CreditCard className="text-slate-200" /> Request Quote</Button>
-              <Button variant="secondary" onClick={() => router.push('/contact')} className="w-full flex items-center justify-center gap-2"><Zap className="text-slate-200" /> Manage Billing</Button>
-              <Button variant="ghost" onClick={() => router.push('/auth')} className="w-full flex items-center justify-center gap-2"><Clock className="text-slate-200" /> Account Settings</Button>
+              <Button onClick={() => router.push('/contact')} className="w-full flex items-center justify-center gap-2"><CreditCard className="text-slate-200" /> {t('request_quote')}</Button>
+              <Button variant="secondary" onClick={() => router.push('/contact')} className="w-full flex items-center justify-center gap-2"><Zap className="text-slate-200" /> {t('manage_billing')}</Button>
+              <Button variant="ghost" onClick={() => router.push('/auth')} className="w-full flex items-center justify-center gap-2"><Clock className="text-slate-200" /> {t('account_settings')}</Button>
             </div>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-            <h3 className="text-lg font-semibold mb-3">Billing</h3>
+            <h3 className="text-lg font-semibold mb-3">{t('billing')}</h3>
             <div className="space-y-3">
               {invoices.map(inv => (
                 <div key={inv.id} className="flex items-center justify-between">
@@ -339,7 +343,7 @@ export default function DashboardPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-            <h3 className="text-lg font-semibold mb-3">New Leads</h3>
+            <h3 className="text-lg font-semibold mb-3">{t('new_leads')}</h3>
             <div className="space-y-3">
               {leadsLoading && <div className="text-sm text-slate-400">Loading leads...</div>}
               {leadsError && <div className="text-sm text-rose-400">{leadsError}</div>}
@@ -364,7 +368,7 @@ export default function DashboardPage() {
 
           {activeTab === 'projects' && (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-              <h2 className="text-xl font-semibold mb-4">Projects</h2>
+              <h2 className="text-xl font-semibold mb-4">{t('projects')}</h2>
               <div className="space-y-3">
                 {projectsLoading && <div className="text-sm text-slate-400">Loading projects...</div>}
                 {projectsError && <div className="text-sm text-rose-400">{projectsError}</div>}
@@ -393,7 +397,7 @@ export default function DashboardPage() {
 
           {activeTab === 'leads' && (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-              <h3 className="text-lg font-semibold mb-3">New Leads</h3>
+              <h3 className="text-lg font-semibold mb-3">{t('new_leads')}</h3>
               <div className="space-y-3">
                 {leadsLoading && <div className="text-sm text-slate-400">Loading leads...</div>}
                 {leadsError && <div className="text-sm text-rose-400">{leadsError}</div>}
@@ -416,40 +420,40 @@ export default function DashboardPage() {
           {activeTab === 'settings' && (
             <div className="space-y-6">
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-                <h3 className="text-lg font-semibold mb-3">Profile Settings</h3>
+                <h3 className="text-lg font-semibold mb-3">{t('profile_settings')}</h3>
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs text-slate-400">Name</label>
+                    <label className="text-xs text-slate-400">{t('name')}</label>
                     <input value={profileName} onChange={(e) => setProfileName(e.target.value)} className="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
                   </div>
                   <div>
-                    <label className="text-xs text-slate-400">Email</label>
+                    <label className="text-xs text-slate-400">{t('email')}</label>
                     <input value={profileEmail} onChange={(e) => setProfileEmail(e.target.value)} className="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
                   </div>
                   <div>
-                    <label className="text-xs text-slate-400">Tier</label>
+                    <label className="text-xs text-slate-400">{t('tier')}</label>
                     <input value={profileTier || ''} onChange={(e) => setProfileTier(e.target.value || null)} className="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button onClick={saveProfile} disabled={profileSaving}>{profileSaving ? 'Saving...' : 'Save Profile'}</Button>
+                    <Button onClick={saveProfile} disabled={profileSaving}>{profileSaving ? 'Saving...' : t('save_profile')}</Button>
                     {profileMessage && <p className="text-sm text-slate-300">{profileMessage}</p>}
                   </div>
                 </div>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-6 bg-slate-800 rounded-lg border border-slate-700">
-                <h3 className="text-lg font-semibold mb-3">Change Password</h3>
+                <h3 className="text-lg font-semibold mb-3">{t('change_password')}</h3>
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs text-slate-400">Current Password</label>
+                    <label className="text-xs text-slate-400">{t('current_password')}</label>
                     <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
                   </div>
                   <div>
-                    <label className="text-xs text-slate-400">New Password</label>
+                    <label className="text-xs text-slate-400">{t('new_password')}</label>
                     <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
                   </div>
                   <div>
-                    <label className="text-xs text-slate-400">Confirm Password</label>
+                    <label className="text-xs text-slate-400">{t('confirm_password')}</label>
                     <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
                   </div>
                   <div className="flex items-center gap-2">

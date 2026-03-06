@@ -4,6 +4,7 @@ import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import { 
@@ -39,6 +40,7 @@ interface ValidationErrors {
 }
 
 export default function AuthPage() {
+  const { t } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -237,30 +239,30 @@ export default function AuthPage() {
                 )}
               </motion.div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                {isAdmin ? 'Admin Access' : (isLogin ? 'Welcome Back' : 'Create Account')}
+                {isAdmin ? t('admin_access') : (isLogin ? t('welcome_back') : t('create_account'))}
               </h1>
               <p className="text-slate-400 mt-2">
                 {isAdmin 
-                  ? 'Secure admin portal' 
-                  : (isLogin ? 'Sign in to continue' : 'Join our community today')}
+                  ? t('secure_admin') 
+                  : (isLogin ? t('sign_in_continue') : t('join_community'))}
               </p>
             </motion.div>
 
             {/* User/Admin Toggle with animations */}
             <div className="flex justify-center gap-3 mb-8">
-              {['User', 'Admin'].map((type) => (
+              {[t('user'), t('admin')].map((type, index) => (
                 <motion.button
                   key={type}
-                  onClick={() => setIsAdmin(type === 'Admin')}
+                  onClick={() => setIsAdmin(index === 1)}
                   className={`relative px-6 py-2 rounded-full font-medium transition-all ${
-                    (type === 'Admin' ? isAdmin : !isAdmin)
+                    (index === 1 ? isAdmin : !isAdmin)
                       ? 'text-white'
                       : 'text-slate-400 hover:text-slate-300'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {(type === 'Admin' ? isAdmin : !isAdmin) && (
+                  {(index === 1 ? isAdmin : !isAdmin) && (
                     <motion.div
                       layoutId="activeTab"
                       className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
@@ -302,7 +304,7 @@ export default function AuthPage() {
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <motion.input
                         type="text"
-                        placeholder="Full Name"
+                        placeholder={t('full_name')}
                         value={formData.fullName}
                         onChange={(e) => handleInputChange('fullName', e.target.value)}
                         className={`w-full pl-10 pr-4 py-3 bg-slate-900/50 border rounded-lg focus:outline-none transition-all ${
@@ -332,7 +334,7 @@ export default function AuthPage() {
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <motion.input
                   type="email"
-                  placeholder="Email Address"
+                  placeholder={t('email_address')}
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 bg-slate-900/50 border rounded-lg focus:outline-none transition-all ${
@@ -358,7 +360,7 @@ export default function AuthPage() {
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <motion.input
                         type="tel"
-                        placeholder="Phone Number"
+                        placeholder={t('phone_number')}
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
                         className={`w-full pl-10 pr-4 py-3 bg-slate-900/50 border rounded-lg focus:outline-none transition-all ${
@@ -388,7 +390,7 @@ export default function AuthPage() {
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <motion.input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Password"
+                  placeholder={t('password')}
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
                   className={`w-full pl-10 pr-12 py-3 bg-slate-900/50 border rounded-lg focus:outline-none transition-all ${
@@ -421,7 +423,7 @@ export default function AuthPage() {
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                       <motion.input
                         type={showConfirmPassword ? 'text' : 'password'}
-                        placeholder="Confirm Password"
+                        placeholder={t('confirm_password')}
                         value={formData.confirmPassword}
                         onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                         className={`w-full pl-10 pr-12 py-3 bg-slate-900/50 border rounded-lg focus:outline-none transition-all ${
@@ -482,7 +484,7 @@ export default function AuthPage() {
                     })}
                   </div>
                   <p className="text-xs text-slate-400">
-                    Password must contain at least 8 characters, uppercase, lowercase and number
+                    {t('password_requirements')}
                   </p>
                 </motion.div>
               )}
@@ -501,7 +503,7 @@ export default function AuthPage() {
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      {isLogin ? 'Sign In' : 'Create Account'}
+                      {isLogin ? t('sign_in') : t('create_account')}
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
@@ -517,7 +519,7 @@ export default function AuthPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                {isLogin ? "Don't have an account?" : 'Already have an account?'}
+                {isLogin ? t('no_account') : t('have_account')}
                 <motion.button
                   onClick={() => {
                     setIsLogin((prev) => !prev);
@@ -535,7 +537,7 @@ export default function AuthPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {isLogin ? 'Sign Up' : 'Sign In'}
+                  {isLogin ? t('sign_up') : t('sign_in')}
                 </motion.button>
               </motion.p>
             )}

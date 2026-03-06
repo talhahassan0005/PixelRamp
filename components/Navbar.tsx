@@ -4,24 +4,25 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, User } from 'lucide-react';
+import LanguageSelector from './LanguageSelector';
+import { useLanguage, LanguageProvider } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About Us' },
-  { href: '/services', label: 'Services' },
-  { href: '/why-choose-us', label: 'Why Choose Us' },
-  { href: '/how-it-works', label: 'How It Works' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/', key: 'home' },
+  { href: '/about', key: 'about' },
+  { href: '/services', key: 'services' },
+  { href: '/why-choose-us', key: 'why_choose_us' },
+  { href: '/how-it-works', key: 'how_it_works' },
+  { href: '/contact', key: 'contact' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const { t } = useLanguage();
   const pathname = usePathname();
 
-  // Hide navbar on auth pages (login/signup)
-  // Hide navbar on auth pages (login/signup) and dashboard/project pages
   if (pathname && (pathname.startsWith('/auth') || pathname.startsWith('/dashboard') || pathname.startsWith('/projects'))) return null;
 
   return (
@@ -33,7 +34,6 @@ export default function Navbar() {
             <span className="text-2xl font-bold text-blue-600">PixelRamp</span>
           </Link>
 
-          {/* Centered Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
             {navLinks.map((link) => (
               <Link
@@ -45,22 +45,22 @@ export default function Navbar() {
                     : 'text-slate-300 hover:text-blue-600'
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </div>
 
-          {/* Right side: login/dashboard and mobile button */}
           <div className="flex items-center gap-2">
+            <LanguageSelector />
+
             <Link
               href={user ? '/dashboard' : '/auth'}
               className="hidden md:flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
             >
               <User size={18} />
-              {user ? 'Dashboard' : 'Login'}
+              {user ? t('dashboard') : t('login')}
             </Link>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="md:hidden text-slate-300 hover:text-blue-600"
@@ -70,7 +70,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden pb-4">
             {navLinks.map((link) => (
@@ -84,7 +83,7 @@ export default function Navbar() {
                     : 'text-slate-300 hover:text-blue-600'
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </div>

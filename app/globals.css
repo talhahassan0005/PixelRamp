@@ -122,3 +122,23 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Hide Tawk.to branding */
+#tawk-bubble-container,
+.tawk-branding,
+[class*="tawk"][class*="branding"],
+[id*="tawk"][id*="branding"],
+a[href*="tawk.to"],
+div[style*="tawk"],
+.tawk-min-container .tawk-button-circle,
+.tawk-custom-color,
+iframe[title*="chat widget"] + div,
+#tawkchat-minified-box > div:last-child,
+.tawk-text-truncate {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  pointer-events: none !important;
+}
