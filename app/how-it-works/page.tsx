@@ -3,29 +3,29 @@
 import { motion } from 'framer-motion';
 import { MessageSquare, Code, Rocket } from 'lucide-react';
 import Section from '@/components/ui/Section';
-
-const steps = [
-  {
-    icon: MessageSquare,
-    title: 'Discovery & Consultation',
-    description: 'We start with an in-depth consultation to understand your business goals, target audience, technical requirements, and project vision. Our team analyzes your needs and provides strategic recommendations to ensure project success.',
-    details: ['Requirement gathering', 'Feasibility analysis', 'Technology stack recommendation', 'Project timeline & budget estimation'],
-  },
-  {
-    icon: Code,
-    title: 'Design & Development',
-    description: 'Our expert team designs intuitive user interfaces and builds robust, scalable solutions using the latest technologies and best practices. We follow agile methodology with regular sprints and continuous client feedback.',
-    details: ['UI/UX design & prototyping', 'Frontend & backend development', 'Database architecture', 'API integration & testing'],
-  },
-  {
-    icon: Rocket,
-    title: 'Testing & Deployment',
-    description: 'Before launch, we conduct comprehensive testing including functionality, security, performance, and user acceptance testing. We then deploy your solution and provide ongoing support to ensure smooth operations.',
-    details: ['Quality assurance testing', 'Security audits', 'Performance optimization', 'Production deployment & monitoring'],
-  },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function HowItWorksPage() {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      icon: MessageSquare,
+      title: t('step_1'),
+      description: 'We start with an in-depth consultation to understand your business goals and requirements.',
+    },
+    {
+      icon: Code,
+      title: t('step_3'),
+      description: 'Our expert team designs and builds robust, scalable solutions using the latest technologies.',
+    },
+    {
+      icon: Rocket,
+      title: t('step_4'),
+      description: 'We conduct comprehensive testing and deploy your solution with ongoing support.',
+    },
+  ];
+
   return (
     <Section className="min-h-screen">
       <motion.div
@@ -33,8 +33,8 @@ export default function HowItWorksPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-16"
       >
-        <h1 className="text-5xl font-bold mb-4">How It Works</h1>
-        <p className="text-xl text-slate-400 max-w-3xl mx-auto">Our proven 3-step process ensures seamless project delivery from concept to launch. We combine strategic planning, expert execution, and continuous support to bring your vision to life.</p>
+        <h1 className="text-5xl font-bold mb-4">{t('how_title')}</h1>
+        <p className="text-xl text-slate-400 max-w-3xl mx-auto">Our proven 3-step process ensures seamless project delivery from concept to launch.</p>
       </motion.div>
 
       <div className="max-w-4xl mx-auto">
@@ -54,42 +54,33 @@ export default function HowItWorksPage() {
               <step.icon className="text-blue-600 mb-4" size={40} />
               <h2 className="text-2xl font-bold mb-3">{step.title}</h2>
               <p className="text-slate-400 leading-relaxed mb-4">{step.description}</p>
-              <ul className="space-y-2">
-                {step.details.map((detail, j) => (
-                  <li key={j} className="text-slate-500 flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    {detail}
-                  </li>
-                ))}
-              </ul>
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Timeline */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         className="mt-16 p-8 bg-slate-800 rounded-lg border border-slate-700"
       >
-        <h2 className="text-3xl font-bold text-center mb-8">Typical Project Timeline</h2>
+        <h2 className="text-3xl font-bold text-center mb-8">{t('typical_timeline')}</h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="text-center">
             <p className="text-4xl font-bold text-blue-600 mb-2">1-2 Weeks</p>
-            <p className="text-slate-400">Discovery & Planning</p>
+            <p className="text-slate-400">{t('discovery_planning')}</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-bold text-blue-600 mb-2">4-12 Weeks</p>
-            <p className="text-slate-400">Design & Development</p>
+            <p className="text-slate-400">{t('design_development')}</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-bold text-blue-600 mb-2">1-2 Weeks</p>
-            <p className="text-slate-400">Testing & Launch</p>
+            <p className="text-slate-400">{t('testing_launch')}</p>
           </div>
         </div>
-        <p className="text-center text-slate-500 mt-6">*Timeline varies based on project complexity and scope</p>
+        <p className="text-center text-slate-500 mt-6">*{t('timeline_note')}</p>
       </motion.div>
     </Section>
   );
