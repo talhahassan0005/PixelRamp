@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, User } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
+import CalendlyWidget from './CalendlyWidget';
 import { useLanguage, LanguageProvider } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -51,6 +52,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <CalendlyWidget buttonText="Book Meeting" className="hidden md:flex text-sm px-3 py-2" />
             <LanguageSelector />
 
             <Link
@@ -86,6 +88,17 @@ export default function Navbar() {
                 {t(link.key)}
               </Link>
             ))}
+            <div className="pt-4 border-t border-slate-700 mt-4">
+              <CalendlyWidget buttonText="Book Meeting" className="w-full justify-center mb-3" />
+              <Link
+                href={user ? '/dashboard' : '/auth'}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+              >
+                <User size={18} />
+                {user ? t('dashboard') : t('login')}
+              </Link>
+            </div>
           </div>
         )}
       </div>

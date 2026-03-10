@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { verifyToken } from '@/lib/auth';
 
 const packageBudgets = {
   'web-starter': { min: 300, max: 500 },
@@ -18,7 +19,15 @@ const packageBudgets = {
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, message, service, budget, meetingDate, meetingTime, needsMeeting } = await req.json();
+    const { name, email, message, service, budget, requiresLogin } = await req.json();
+
+    // Check authentication for personalized actions
+    if (requiresLogin) {
+      const token = req.headers.get('authorization')?.replace('Bearer ', '');
+      if (!token || !verifyToken(token)) {
+        return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+      }
+    }
 
     // Budget validation
     if (service && budget) {
@@ -31,18 +40,6 @@ export async function POST(req: NextRequest) {
           }, { status: 400 });
         }
       }
-    }
-
-    let calendarLink = '';
-    if (needsMeeting && meetingDate && meetingTime) {
-      // Create Google Calendar event link (user will create actual meet link)
-      const startDate = new Date(`${meetingDate} ${meetingTime}`);
-      const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour later
-      
-      const eventTitle = encodeURIComponent(`PixelRamp Consultation - ${name}`);
-      const eventDetails = encodeURIComponent(`Service: ${service}\nClient: ${name}\nEmail: ${email}`);
-      
-      calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z&details=${eventDetails}`;
     }
 
     // Email configuration
@@ -69,22 +66,13 @@ export async function POST(req: NextRequest) {
         <p><strong>Budget:</strong> £${budget || 'Not specified'}</p>
         <p><strong>Message:</strong></p>
         <p>${message}</p>
-        ${needsMeeting ? `
-        <hr>
-        <h3>Meeting Request</h3>
-        <p><strong>Date:</strong> ${meetingDate}</p>
-        <p><strong>Time:</strong> ${meetingTime}</p>
-        <p><strong>Add to Calendar:</strong> <a href="${calendarLink}">Click here to add to Google Calendar</a></p>
-        <p><em>Action Required: Please create this meeting in your Google Calendar with Google Meet and send the actual meet link to the client.</em></p>
-        ` : ''}
         <hr>
         <p><em>Submitted at: ${new Date().toLocaleString()}</em></p>
+        <p><strong>Note:</strong> For meetings, client can book directly via Calendly: https://calendly.com/info-pixelramp/30min</p>
       `
     };
 
-    console.log('Attempting to send email to:', 'info.pixelramp@gmail.com');
     await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully to company');
 
     // Send confirmation email to user
     const userMailOptions = {
@@ -101,31 +89,23 @@ export async function POST(req: NextRequest) {
         <p><strong>Budget:</strong> £${budget || 'Not specified'}</p>
         <p><strong>Message:</strong> ${message}</p>
         
-        ${needsMeeting ? `
         <hr>
-        <h3>Meeting Request</h3>
-        <p><strong>Requested Date:</strong> ${meetingDate}</p>
-        <p><strong>Requested Time:</strong> ${meetingTime}</p>
-        <p>We'll create a Google Meet link and send it to you via email before the meeting.</p>
-        ` : ''}
+        <h3>📅 Want to Schedule a Meeting?</h3>
+        <p>Book a free 30-minute consultation: <a href="https://calendly.com/info-pixelramp/30min" target="_blank">https://calendly.com/info-pixelramp/30min</a></p>
         
         <hr>
         <p>Best regards,<br>
         <strong>PixelRamp Team</strong><br>
         Email: info.pixelramp@gmail.com<br>
         Phone: +44 (0) 123 456 7890</p>
-        
-        <p><em>This is an automated confirmation email.</em></p>
       `
     };
 
     await transporter.sendMail(userMailOptions);
-    console.log('Confirmation email sent to user:', email);
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Email sent successfully',
-      calendarLink: needsMeeting ? calendarLink : null
+      message: 'Email sent successfully'
     });
   } catch (error) {
     console.error('Email error:', error);
