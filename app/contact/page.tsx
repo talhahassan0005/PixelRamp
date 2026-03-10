@@ -1,41 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, FormEvent } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Section from '@/components/ui/Section';
-import Button from '@/components/ui/Button';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
 
 export default function ContactPage() {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState<FormData>({ name: '', email: '', message: '' });
-  const [errors, setErrors] = useState<Partial<FormData>>({});
-
-  const validate = (): boolean => {
-    const newErrors: Partial<FormData> = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      console.log('Form submitted:', formData);
-      alert('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
-    }
-  };
 
   return (
     <Section className="min-h-screen">
@@ -60,7 +31,7 @@ export default function ContactPage() {
         />
       </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -97,46 +68,17 @@ export default function ContactPage() {
               <p className="text-blue-600 mt-4">{t('support_24_7')} {t('emergency_support')}</p>
             </div>
           </div>
-        </motion.div>
 
-        <motion.form
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
-          <div>
-            <input
-              type="text"
-              placeholder={t('your_name')}
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:border-blue-600 focus:outline-none"
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-          </div>
-          <div>
-            <input
-              type="email"
-              placeholder={t('your_email')}
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:border-blue-600 focus:outline-none"
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
-          <div>
-            <textarea
-              placeholder={t('your_message')}
-              rows={5}
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:border-blue-600 focus:outline-none resize-none"
-            />
-            {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
-          </div>
-          <Button type="submit" className="w-full">{t('send_message')}</Button>
-        </motion.form>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 p-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-lg border border-blue-600/30"
+          >
+            <p className="text-slate-300">
+              <span className="text-blue-400 font-semibold">Need to schedule a consultation or send a message?</span> Visit your <a href="/dashboard" className="text-blue-500 hover:text-blue-400 underline">dashboard</a> to access the contact form and book a meeting.
+            </p>
+          </motion.div>
+        </motion.div>
       </div>
     </Section>
   );

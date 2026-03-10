@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, FileText, Users, MessageCircle, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, Zap, Settings, LogOut, Mail } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -19,21 +19,17 @@ export default function DashboardSidebar({ onOpenChat, activeTab, setActiveTab }
         </Link>
 
         <nav className="space-y-1">
-          <button onClick={() => setActiveTab?.('overview')} className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800 ${activeTab === 'overview' ? 'bg-slate-800' : ''}`}>
-            <Home size={18} />
-            <span>{t('overview')}</span>
+          <button onClick={() => setActiveTab?.('dashboard')} className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800 ${activeTab === 'dashboard' ? 'bg-slate-800' : ''}`}>
+            <LayoutDashboard size={18} />
+            <span>Dashboard</span>
           </button>
-          <button onClick={() => setActiveTab?.('projects')} className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800 ${activeTab === 'projects' ? 'bg-slate-800' : ''}`}>
-            <FileText size={18} />
-            <span>{t('projects')}</span>
+          <button onClick={() => setActiveTab?.('services')} className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800 ${activeTab === 'services' ? 'bg-slate-800' : ''}`}>
+            <Zap size={18} />
+            <span>{t('services')}</span>
           </button>
-          <button onClick={() => setActiveTab?.('leads')} className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800 ${activeTab === 'leads' ? 'bg-slate-800' : ''}`}>
-            <Users size={18} />
-            <span>{t('leads')}</span>
-          </button>
-          <button onClick={() => onOpenChat?.()} className="w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800">
-            <MessageCircle size={18} />
-            <span>{t('chat')}</span>
+          <button onClick={() => setActiveTab?.('contact')} className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800 ${activeTab === 'contact' ? 'bg-slate-800' : ''}`}>
+            <Mail size={18} />
+            <span>{t('contact')}</span>
           </button>
           <button onClick={() => setActiveTab?.('settings')} className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-800 ${activeTab === 'settings' ? 'bg-slate-800' : ''}`}>
             <Settings size={18} />
