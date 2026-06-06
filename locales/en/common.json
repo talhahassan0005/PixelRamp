@@ -128,5 +128,6 @@
   "new_password": "New Password",
   "overview_subtitle": "Overview of your projects, billing and quick actions",
   "chat": "Chat",
-  "logout": "Logout"
+  "logout": "Logout",
+  "portfolio": "Portfolio"
 }

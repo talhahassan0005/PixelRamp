@@ -128,5 +128,6 @@
   "new_password": "Nueva contraseña",
   "overview_subtitle": "Resumen de tus proyectos, facturación y acciones rápidas",
   "chat": "Chat",
-  "logout": "Cerrar sesión"
+  "logout": "Cerrar sesión",
+  "portfolio": "Portafolio"
 }

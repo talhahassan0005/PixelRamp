@@ -128,5 +128,6 @@
   "new_password": "新しいパスワード",
   "overview_subtitle": "プロジェクト、請求、クイックアクションの概要",
   "chat": "チャット",
-  "logout": "ログアウト"
+  "logout": "ログアウト",
+  "portfolio": "ポートフォリオ"
 }
