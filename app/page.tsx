@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
+import HeroContactForm from '@/components/HeroContactForm';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -19,7 +20,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-slate-950"></div>
         </div>
         
-        <div className="text-center relative z-10 w-full">
+        <div className="relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center lg:text-left">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium mb-8 backdrop-blur-sm">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -28,15 +30,15 @@ export default function Home() {
             Trusted by 300+ Companies Worldwide
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+          <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
             <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">{t('hero_title')}</span>
           </h1>
-          
-          <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-4xl mx-auto leading-relaxed">
+
+          <p className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
             {t('hero_subtitle')}
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
             <Link href="/contact">
               <Button className="flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-600/30">
                 {t('start_project')} <ArrowRight size={20} />
@@ -47,7 +49,7 @@ export default function Home() {
             </Link>
           </div>
           
-          <div className="mt-16 flex flex-wrap justify-center gap-8 items-center text-slate-500 text-sm">
+          <div className="mt-12 flex flex-wrap justify-center lg:justify-start gap-6 items-center text-slate-500 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
                 <span className="text-blue-400 font-bold">✓</span>
@@ -67,6 +69,10 @@ export default function Home() {
               <span>{t('support_24_7')}</span>
             </div>
           </div>
+          </div>
+
+          {/* Right: lead-capture form */}
+          <HeroContactForm />
         </div>
       </Section>
 
@@ -158,6 +164,27 @@ export default function Home() {
             </StaggerItem>
           ))}
         </StaggerContainer>
+      </Section>
+
+      {/* Map Section (above footer) */}
+      <Section className="bg-slate-950 border-t border-slate-800">
+        <FadeIn className="text-center mb-12">
+          <span className="text-blue-500 font-semibold text-sm uppercase tracking-wider">Find Us</span>
+          <h2 className="text-5xl font-bold mb-4 mt-3">Visit Our Office</h2>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">Come say hello, or reach out and we&apos;ll bring the meeting to you.</p>
+        </FadeIn>
+        <FadeIn className="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
+          <iframe
+            title="Our location"
+            src="https://www.google.com/maps?q=London%2C%20United%20Kingdom&output=embed"
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full block"
+          ></iframe>
+        </FadeIn>
       </Section>
     </>
   );

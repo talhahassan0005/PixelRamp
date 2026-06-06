@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, Mail } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 import CalendlyWidget from './CalendlyWidget';
 import { useLanguage, LanguageProvider } from '@/contexts/LanguageContext';
@@ -15,7 +15,6 @@ const navLinks = [
   { href: '/services', key: 'services' },
   { href: '/why-choose-us', key: 'why_choose_us' },
   { href: '/how-it-works', key: 'how_it_works' },
-  { href: '/contact', key: 'contact' },
 ];
 
 export default function Navbar() {
@@ -52,6 +51,17 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/contact"
+              className={`hidden md:flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-colors ${
+                pathname === '/contact'
+                  ? 'border-blue-500 text-blue-400'
+                  : 'border-slate-700 text-slate-200 hover:border-blue-500 hover:text-blue-400'
+              }`}
+            >
+              <Mail size={16} />
+              {t('contact')}
+            </Link>
             <CalendlyWidget buttonText="Book Meeting" className="hidden md:flex text-sm px-3 py-2" />
             <LanguageSelector />
 
@@ -89,6 +99,14 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="pt-4 border-t border-slate-700 mt-4">
+              <Link
+                href="/contact"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center gap-2 px-4 py-2 mb-3 rounded-lg border border-slate-700 text-slate-200 hover:border-blue-500 hover:text-blue-400 transition-colors"
+              >
+                <Mail size={18} />
+                {t('contact')}
+              </Link>
               <CalendlyWidget buttonText="Book Meeting" className="w-full justify-center mb-3" />
               <Link
                 href={user ? '/dashboard' : '/auth'}
