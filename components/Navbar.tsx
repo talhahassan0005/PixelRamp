@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/', key: 'home' },
   { href: '/about', key: 'about' },
   { href: '/services', key: 'services' },
+  { href: '/portfolio', key: 'portfolio' },
   { href: '/why-choose-us', key: 'why_choose_us' },
   { href: '/how-it-works', key: 'how_it_works' },
 ];

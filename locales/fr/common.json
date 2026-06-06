@@ -128,5 +128,6 @@
   "new_password": "Nouveau mot de passe",
   "overview_subtitle": "Aperçu de vos projets, facturation et actions rapides",
   "chat": "Chat",
-  "logout": "Déconnexion"
+  "logout": "Déconnexion",
+  "portfolio": "Portfolio"
 }
