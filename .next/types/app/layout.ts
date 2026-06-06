@@ -1,4 +1,4 @@
-// File: D:\Data1\Data1\Projects\web-desktop\Hassan\app\layout.tsx
+// File: D:\Data1\Data1\Projects\web-desktop\pixelramp\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -5,7 +5,8 @@ import { ArrowRight, Code2, Palette, Rocket } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
-import { FadeIn, SlideIn, ScaleIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
+import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
+import HeroContactForm from '@/components/HeroContactForm';
 
 export default function Home() {
   return (
@@ -17,87 +18,93 @@ export default function Home() {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-slate-950"></div>
         </div>
-        
+
         {/* Floating elements */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium mb-8 backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-              </span>
-              Trusted by 300+ Companies Worldwide
-            </div>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
-          >
-            Build Your Digital
-            <br />
-            <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">Future Today</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-slate-300 mb-10 max-w-4xl mx-auto leading-relaxed"
-          >
-            Transform your vision into reality with enterprise-grade software solutions.
-            <br className="hidden md:block" />
-            From MVP to scale, we deliver excellence at every stage.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Link href="/contact">
-              <Button className="flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-600/30">
-                Start Your Project <ArrowRight size={20} />
-              </Button>
-            </Link>
-            <Link href="/services">
-              <Button variant="secondary" className="px-8 py-4 text-lg border-slate-600 hover:border-blue-500 hover:bg-slate-800/50 backdrop-blur-sm">View Our Work</Button>
-            </Link>
-          </motion.div>
-          
-          {/* Trust badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-16 flex flex-wrap justify-center gap-8 items-center text-slate-500 text-sm"
-          >
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
-                <span className="text-blue-400 font-bold">✓</span>
+
+        <div className="relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left: copy + CTAs */}
+          <div className="text-center lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              className="mb-8"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-full text-blue-400 text-sm font-medium mb-8 backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Trusted by 300+ Companies Worldwide
               </div>
-              <span>ISO Certified</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
-                <span className="text-blue-400 font-bold">✓</span>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-5xl md:text-6xl xl:text-7xl font-bold mb-6 leading-tight"
+            >
+              Build Your Digital
+              <br />
+              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 bg-clip-text text-transparent animate-gradient">Future Today</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl md:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+            >
+              Transform your vision into reality with enterprise-grade software solutions.
+              From MVP to scale, we deliver excellence at every stage.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+            >
+              <Link href="/contact">
+                <Button className="flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-600/30">
+                  Start Your Project <ArrowRight size={20} />
+                </Button>
+              </Link>
+              <Link href="/services">
+                <Button variant="secondary" className="px-8 py-4 text-lg border-slate-600 hover:border-blue-500 hover:bg-slate-800/50 backdrop-blur-sm">View Our Work</Button>
+              </Link>
+            </motion.div>
+
+            {/* Trust badges */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="mt-12 flex flex-wrap justify-center lg:justify-start gap-6 items-center text-slate-500 text-sm"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-400 font-bold">✓</span>
+                </div>
+                <span>ISO Certified</span>
               </div>
-              <span>GDPR Compliant</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
-                <span className="text-blue-400 font-bold">✓</span>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-400 font-bold">✓</span>
+                </div>
+                <span>GDPR Compliant</span>
               </div>
-              <span>24/7 Support</span>
-            </div>
-          </motion.div>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-400 font-bold">✓</span>
+                </div>
+                <span>24/7 Support</span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right: lead-capture form */}
+          <HeroContactForm />
         </div>
       </Section>
 
@@ -123,12 +130,12 @@ export default function Home() {
                 >
                   {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-purple-600/0 group-hover:from-blue-600/5 group-hover:to-purple-600/5 transition-all duration-500"></div>
-                  
+
                   <div className="relative h-48 mb-6 rounded-xl overflow-hidden">
                     <img src={feature.img} alt={feature.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
                   </div>
-                  
+
                   <div className="relative">
                     <div className="w-14 h-14 bg-blue-600/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600/20 transition-colors">
                       <feature.icon className="text-blue-500" size={28} />
@@ -190,6 +197,29 @@ export default function Home() {
             </StaggerItem>
           ))}
         </StaggerContainer>
+      </Section>
+
+      {/* Map Section (above footer) */}
+      <Section className="bg-slate-950 border-t border-slate-800">
+        <FadeIn className="text-center mb-12">
+          <span className="text-blue-500 font-semibold text-sm uppercase tracking-wider">Find Us</span>
+          <h2 className="text-5xl font-bold mb-4 mt-3">Visit Our Office</h2>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            Come say hello, or reach out and we&apos;ll bring the meeting to you.
+          </p>
+        </FadeIn>
+        <FadeIn className="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
+          <iframe
+            title="Our location"
+            src="https://www.google.com/maps?q=Silicon%20Valley%2C%20CA&output=embed"
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full block"
+          ></iframe>
+        </FadeIn>
       </Section>
     </>
   );
