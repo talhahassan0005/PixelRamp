@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Code2, Palette, Rocket, Smartphone } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import PricingCard from '@/components/PricingCard';
+import CalendlyWidget from '@/components/CalendlyWidget';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ServicesPage() {
@@ -17,7 +18,7 @@ export default function ServicesPage() {
             <h1 className="text-5xl font-bold mb-4">{t('services')}</h1>
             <p className="text-xl text-slate-400 mb-4">{t('enterprise_services')}</p>
             <div className="flex gap-3">
-              <a href="#contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-base" />
               <a href="#pricing" className="inline-block border border-slate-700 text-slate-200 px-4 py-2 rounded">{t('view_work')}</a>
             </div>
           </motion.div>
@@ -43,19 +44,19 @@ export default function ServicesPage() {
               <h3 className="text-xl font-bold mb-4">Starter</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £300</p>
               <p className="text-slate-400 mb-4">{t('web_dev_desc')}</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Business</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £1,199</p>
               <p className="text-slate-400 mb-4">Professional websites with CMS</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Enterprise</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £2,200</p>
               <p className="text-slate-400 mb-4">Custom web applications</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
           </div>
         </motion.div>
@@ -70,19 +71,19 @@ export default function ServicesPage() {
               <h3 className="text-xl font-bold mb-4">Essential</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £149</p>
               <p className="text-slate-400 mb-4">{t('graphics_desc')}</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Corporate</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £299</p>
               <p className="text-slate-400 mb-4">Complete brand identity kit</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Elite</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £600</p>
               <p className="text-slate-400 mb-4">Premium visual systems</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
           </div>
         </motion.div>
@@ -97,19 +98,19 @@ export default function ServicesPage() {
               <h3 className="text-xl font-bold mb-4">MVP Launch</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £1,500</p>
               <p className="text-slate-400 mb-4">{t('saas_desc')}</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Scale-Up</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £2,300</p>
               <p className="text-slate-400 mb-4">Multi-user SaaS architecture</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Enterprise</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £3,000</p>
               <p className="text-slate-400 mb-4">Large-scale cloud infrastructure</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
           </div>
         </motion.div>
@@ -124,19 +125,19 @@ export default function ServicesPage() {
               <h3 className="text-xl font-bold mb-4">Basic App</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £500</p>
               <p className="text-slate-400 mb-4">Single-platform mobile applications</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Pro App</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £999</p>
               <p className="text-slate-400 mb-4">Cross-platform applications</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
             <div className="p-6 bg-slate-800 rounded-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Advanced</h3>
               <p className="text-2xl font-bold text-blue-600 mb-4">From £2,000</p>
               <p className="text-slate-400 mb-4">Complex apps with real-time features</p>
-              <a href="/contact" className="inline-block bg-blue-600 text-white px-4 py-2 rounded">{t('get_quote')}</a>
+              <CalendlyWidget buttonText="Book a Free Consultation" className="px-4 py-2 text-sm" />
             </div>
           </div>
         </motion.div>

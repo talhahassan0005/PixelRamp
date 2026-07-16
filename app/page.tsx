@@ -8,6 +8,7 @@ import Section from '@/components/ui/Section';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 import HeroContactForm from '@/components/HeroContactForm';
+import CalendlyWidget from '@/components/CalendlyWidget';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -39,15 +40,17 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
-            <Link href="/contact">
-              <Button className="flex items-center gap-2 px-8 py-4 text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg shadow-blue-600/30">
-                {t('start_project')} <ArrowRight size={20} />
-              </Button>
-            </Link>
+            <CalendlyWidget
+              buttonText="Book a Free Consultation"
+              className="px-8 py-4 text-lg shadow-lg shadow-blue-600/30"
+            />
             <Link href="/services">
               <Button variant="secondary" className="px-8 py-4 text-lg border-slate-600 hover:border-blue-500 hover:bg-slate-800/50 backdrop-blur-sm">{t('view_work')}</Button>
             </Link>
           </div>
+          <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto lg:mx-0">
+            We start every project with a free consultation — once we agree on the plan, we get to work.
+          </p>
           
           <div className="mt-12 flex flex-wrap justify-center lg:justify-start gap-6 items-center text-slate-500 text-sm">
             <div className="flex items-center gap-2">

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Section from '@/components/ui/Section';
+import CalendlyWidget from '@/components/CalendlyWidget';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ContactPage() {
@@ -74,9 +75,10 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="mt-8 p-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-lg border border-blue-600/30"
           >
-            <p className="text-slate-300">
-              <span className="text-blue-400 font-semibold">Need to schedule a consultation or send a message?</span> Visit your <a href="/dashboard" className="text-blue-500 hover:text-blue-400 underline">dashboard</a> to access the contact form and book a meeting.
+            <p className="text-slate-300 mb-4">
+              <span className="text-blue-400 font-semibold">Ready to start?</span> Every project begins with a free consultation call — once we agree on the plan, we get to work.
             </p>
+            <CalendlyWidget buttonText="Book a Free Consultation" />
           </motion.div>
         </motion.div>
       </div>

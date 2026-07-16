@@ -2,27 +2,19 @@
 
 import { useState } from 'react';
 import { Calendar, X } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
 
 interface CalendlyWidgetProps {
   buttonText?: string;
   className?: string;
-  requireLogin?: boolean;
 }
 
-export default function CalendlyWidget({ 
-  buttonText = "Book a Meeting", 
+export default function CalendlyWidget({
+  buttonText = "Book a Free Consultation",
   className = "",
-  requireLogin = true
 }: CalendlyWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useAuth();
 
   const openCalendly = () => {
-    if (requireLogin && !user) {
-      alert('Please login first to book a meeting');
-      return;
-    }
     setIsOpen(true);
   };
 
@@ -42,7 +34,7 @@ export default function CalendlyWidget({
       </button>
 
       {/* Modal Overlay */}
-      {isOpen && (!requireLogin || user) && (
+      {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg w-full max-w-4xl h-[80vh] relative">
             {/* Close Button */}

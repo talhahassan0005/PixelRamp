@@ -64,7 +64,7 @@ export default function HeroContactForm() {
           <CheckCircle2 className="text-green-500 mx-auto mb-4" size={56} />
           <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
           <p className="text-slate-400 mb-6">
-            Thank you for reaching out. We&apos;ll be in touch within 24 hours.
+            Thank you for reaching out. We&apos;ll be in touch within 24 hours to schedule your free consultation.
           </p>
           <button
             onClick={() => setStatus('idle')}
@@ -76,9 +76,9 @@ export default function HeroContactForm() {
       ) : (
         <>
           <div className="mb-6">
-            <h3 className="text-2xl font-bold mb-1">Get a Free Quote</h3>
+            <h3 className="text-2xl font-bold mb-1">Request a Free Consultation</h3>
             <p className="text-slate-400 text-sm">
-              Tell us about your project and we&apos;ll get back to you.
+              Tell us about your project and we&apos;ll book a call to discuss it — work only starts once you&apos;re ready to move forward.
             </p>
           </div>
 
@@ -161,7 +161,7 @@ export default function HeroContactForm() {
                 </>
               ) : (
                 <>
-                  Get Free Quote <Send size={18} />
+                  Request Consultation <Send size={18} />
                 </>
               )}
             </button>
