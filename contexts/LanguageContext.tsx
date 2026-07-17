@@ -37,39 +37,11 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const [lang, setLang] = useState<Lang>("en");
 
   useEffect(() => {
-    // First check localStorage for saved preference
+    // Default to English; only override if the visitor previously chose a language themselves
     const saved = localStorage.getItem('language') as Lang;
     if (saved && ['en', 'ur', 'fr', 'de', 'es', 'nl', 'it', 'pt', 'ru', 'ja'].includes(saved)) {
       setLang(saved);
-      return;
     }
-
-    // If no saved preference, detect browser language
-    const browserLang = navigator.language.toLowerCase();
-    let detectedLang: Lang = 'en'; // default fallback
-    
-    if (browserLang.startsWith('ur') || browserLang.includes('pk')) {
-      detectedLang = 'ur';
-    } else if (browserLang.startsWith('fr')) {
-      detectedLang = 'fr';
-    } else if (browserLang.startsWith('de')) {
-      detectedLang = 'de';
-    } else if (browserLang.startsWith('es')) {
-      detectedLang = 'es';
-    } else if (browserLang.startsWith('nl')) {
-      detectedLang = 'nl';
-    } else if (browserLang.startsWith('it')) {
-      detectedLang = 'it';
-    } else if (browserLang.startsWith('pt')) {
-      detectedLang = 'pt';
-    } else if (browserLang.startsWith('ru')) {
-      detectedLang = 'ru';
-    } else if (browserLang.startsWith('ja')) {
-      detectedLang = 'ja';
-    }
-    
-    setLang(detectedLang);
-    localStorage.setItem('language', detectedLang);
   }, []);
 
   const changeLang = (l: Lang) => {
