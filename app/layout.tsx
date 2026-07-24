@@ -25,6 +25,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Calendly styles — loaded globally so popup works everywhere */}
+        <link
+          href="https://assets.calendly.com/assets/external/widget.css"
+          rel="stylesheet"
+        />
+      </head>
       <body className={`${inter.className} bg-slate-900 text-slate-100`}>
         <LanguageProvider>
           <AuthProvider>
@@ -33,8 +40,14 @@ export default function RootLayout({
             <Footer />
           </AuthProvider>
         </LanguageProvider>
-        
-        {/* Tawk.to Chatbot Script */}
+
+        {/* Calendly JS — loaded once globally */}
+        <script
+          src="https://assets.calendly.com/assets/external/widget.js"
+          async
+        />
+
+        {/* Tawk.to Live Chat */}
         <script
           dangerouslySetInnerHTML={{
             __html: `

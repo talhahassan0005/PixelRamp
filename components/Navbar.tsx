@@ -66,13 +66,15 @@ export default function Navbar() {
             <CalendlyWidget buttonText="Book Meeting" className="hidden md:flex text-sm px-3 py-2" />
             <LanguageSelector />
 
-            <Link
-              href={user ? '/dashboard' : '/auth'}
-              className="hidden md:flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-            >
-              <User size={18} />
-              {user ? t('dashboard') : t('login')}
-            </Link>
+            {user && (
+              <Link
+                href="/dashboard"
+                className="hidden md:flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+              >
+                <User size={18} />
+                {t('dashboard')}
+              </Link>
+            )}
 
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -109,14 +111,16 @@ export default function Navbar() {
                 {t('contact')}
               </Link>
               <CalendlyWidget buttonText="Book Meeting" className="w-full justify-center mb-3" />
-              <Link
-                href={user ? '/dashboard' : '/auth'}
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-              >
-                <User size={18} />
-                {user ? t('dashboard') : t('login')}
-              </Link>
+              {user && (
+                <Link
+                  href="/dashboard"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                >
+                  <User size={18} />
+                  {t('dashboard')}
+                </Link>
+              )}
             </div>
           </div>
         )}
