@@ -1,62 +1,74 @@
 'use client';
 
-import { useState } from 'react';
-import { Calendar, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Calendar } from 'lucide-react';
 
 interface CalendlyWidgetProps {
   buttonText?: string;
   className?: string;
+  requireLogin?: boolean;
+}
+
+declare global {
+  interface Window {
+    Calendly?: {
+      initPopupWidget: (opts: { url: string }) => void;
+    };
+  }
 }
 
 export default function CalendlyWidget({
-  buttonText = "Book a Free Consultation",
-  className = "",
+  buttonText = 'Book a Free Consultation',
+  className = '',
+  requireLogin = false,
 }: CalendlyWidgetProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    // Load Calendly CSS
+    if (!document.getElementById('calendly-css')) {
+      const link = document.createElement('link');
+      link.id = 'calendly-css';
+      link.rel = 'stylesheet';
+      link.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(link);
+    }
+
+    // Load Calendly JS
+    if (!document.getElementById('calendly-js')) {
+      const script = document.createElement('script');
+      script.id = 'calendly-js';
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.onload = () => setReady(true);
+      document.head.appendChild(script);
+    } else {
+      // Script already loaded
+      if (window.Calendly) setReady(true);
+      else {
+        const interval = setInterval(() => {
+          if (window.Calendly) { setReady(true); clearInterval(interval); }
+        }, 100);
+      }
+    }
+  }, []);
 
   const openCalendly = () => {
-    setIsOpen(true);
-  };
-
-  const closeCalendly = () => {
-    setIsOpen(false);
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/info-pixelramp/30min',
+      });
+    }
   };
 
   return (
-    <>
-      {/* Book Meeting Button */}
-      <button
-        onClick={openCalendly}
-        className={`inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors ${className}`}
-      >
-        <Calendar size={20} />
-        {buttonText}
-      </button>
-
-      {/* Modal Overlay */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg w-full max-w-4xl h-[80vh] relative">
-            {/* Close Button */}
-            <button
-              onClick={closeCalendly}
-              className="absolute top-4 right-4 z-10 bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors"
-            >
-              <X size={20} />
-            </button>
-            
-            {/* Calendly Iframe */}
-            <iframe
-              src="https://calendly.com/info-pixelramp/30min"
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              className="rounded-lg"
-              title="Schedule a meeting"
-            />
-          </div>
-        </div>
-      )}
-    </>
+    <button
+      onClick={openCalendly}
+      disabled={!ready}
+      className={`inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-wait text-white px-6 py-3 rounded-lg font-medium transition-colors ${className}`}
+    >
+      <Calendar size={20} />
+      {ready ? buttonText : 'Loading...'}
+    </button>
   );
 }
