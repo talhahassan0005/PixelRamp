@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   ExternalLink,
@@ -10,6 +11,8 @@ import {
   Palette,
   ShoppingBag,
   Ship,
+  AlertTriangle,
+  Lightbulb,
   LucideIcon,
 } from 'lucide-react';
 import Section from '@/components/ui/Section';
@@ -25,6 +28,13 @@ type Project = {
   icon: LucideIcon;
   gradient: string;
 };
+
+// Live screenshot of the project URL via WordPress's free mshots service.
+// On a site's very first request it may briefly return a "generating…" placeholder
+// before the real screenshot is cached — reload the page a moment later if so.
+function getScreenshotUrl(url: string) {
+  return `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=800&h=500`;
+}
 
 const projects: Project[] = [
   {
@@ -139,9 +149,19 @@ export default function PortfolioPage() {
                 transition={{ duration: 0.3 }}
                 className="group flex flex-col h-full bg-slate-900/50 rounded-xl overflow-hidden border border-slate-800 hover:border-blue-600/50 transition-all backdrop-blur-sm"
               >
-                <div className={`relative h-40 bg-gradient-to-br ${project.gradient} flex items-center justify-center`}>
-                  <Icon className="text-white/90" size={56} />
-                  <span className="absolute top-3 right-3 flex items-center gap-1.5 text-xs text-white/90 bg-black/25 px-2.5 py-1 rounded-full backdrop-blur-sm">
+                <div className={`relative h-44 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
+                  <Image
+                    src={getScreenshotUrl(project.url)}
+                    alt={`${project.title} — live site screenshot`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover object-top opacity-95 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  <span className="absolute top-3 left-3 flex items-center justify-center w-9 h-9 rounded-lg bg-black/40 backdrop-blur-sm">
+                    <Icon className="text-white" size={18} />
+                  </span>
+                  <span className="absolute top-3 right-3 flex items-center gap-1.5 text-xs text-white/90 bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-sm">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                     Live
                   </span>
@@ -151,13 +171,19 @@ export default function PortfolioPage() {
                   <p className="text-xs text-blue-500 font-semibold uppercase tracking-wide mb-1">{project.category}</p>
                   <h2 className="text-xl font-bold mb-3 group-hover:text-blue-500 transition-colors">{project.title}</h2>
 
-                  <div className="flex-1 space-y-3 mb-4">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">The Challenge</p>
+                  <div className="flex-1 space-y-4 mb-4">
+                    <div className="pl-3 border-l-2 border-amber-500/60">
+                      <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-amber-500 mb-1">
+                        <AlertTriangle size={13} />
+                        The Challenge
+                      </p>
                       <p className="text-slate-400 text-sm leading-relaxed">{project.problem}</p>
                     </div>
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Our Solution</p>
+                    <div className="pl-3 border-l-2 border-emerald-500/60">
+                      <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-500 mb-1">
+                        <Lightbulb size={13} />
+                        Our Solution
+                      </p>
                       <p className="text-slate-400 text-sm leading-relaxed">{project.solution}</p>
                     </div>
                   </div>
