@@ -18,7 +18,8 @@ import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedS
 type Project = {
   title: string;
   category: string;
-  description: string;
+  problem: string;
+  solution: string;
   tags: string[];
   url: string;
   icon: LucideIcon;
@@ -29,8 +30,10 @@ const projects: Project[] = [
   {
     title: 'TrueSofts Platform',
     category: 'Enterprise SaaS',
-    description:
-      'Enterprise-grade software solutions platform built on a production Next.js stack with a scalable architecture, modern UI/UX, and a performance-optimized, fully responsive layout.',
+    problem:
+      'TrueSofts needed a credible, enterprise-grade web presence to sell its software solutions, but their existing site couldn’t scale or perform at the level enterprise buyers expect.',
+    solution:
+      'We built a production-grade Next.js platform with a scalable architecture, modern UI/UX, and performance-optimized responsive design that positions them as an enterprise-ready vendor.',
     tags: ['Next.js', 'Enterprise', 'Scalable Architecture'],
     url: 'https://truesofts-nine.vercel.app/',
     icon: Layers,
@@ -39,8 +42,10 @@ const projects: Project[] = [
   {
     title: 'Visitor Management System',
     category: 'Corporate Security',
-    description:
-      'Intelligent corporate visitor tracking system with authentication, role-based access control (RBAC), real-time registration, and secure database-driven security workflows.',
+    problem:
+      'Manual, paper-based visitor logs left the client’s facilities exposed, with no way to verify identities, control access, or audit who entered the building and when.',
+    solution:
+      'We delivered a secure visitor management system with authentication, role-based access control, and real-time, database-driven registration that gives security teams full visibility and control.',
     tags: ['Auth + RBAC', 'Real-time DB', 'Security'],
     url: 'https://visitor-management-sa.vercel.app/',
     icon: ShieldCheck,
@@ -49,8 +54,10 @@ const projects: Project[] = [
   {
     title: 'FleetXchange Africa',
     category: 'Marketplace Platform',
-    description:
-      'A robust marketplace for fleet management and vehicle exchange featuring user dashboards, inventory management, and seamless end-to-end transaction workflows.',
+    problem:
+      'Fleet operators across Africa had no centralized platform to list, discover, or exchange vehicles, so deals happened informally, slowly, and without visibility into inventory.',
+    solution:
+      'We built a marketplace with user dashboards, inventory management, and end-to-end transaction workflows that connects buyers and sellers and moves fleet deals online.',
     tags: ['Marketplace', 'Dashboards', 'Inventory'],
     url: 'http://fleetxchange.africa/',
     icon: Truck,
@@ -59,8 +66,10 @@ const projects: Project[] = [
   {
     title: 'Brewly',
     category: 'E-Commerce',
-    description:
-      'E-commerce platform for specialty coffee and brewing equipment with a full product catalog, shopping cart, order management, and integrated payment flows.',
+    problem:
+      'Brewly’s specialty coffee and brewing equipment business had no way to sell online, limiting them to in-person and word-of-mouth sales.',
+    solution:
+      'We launched a full e-commerce platform with a product catalog, shopping cart, order management, and integrated payments, opening a direct online revenue channel.',
     tags: ['E-commerce', 'Payments', 'Order Management'],
     url: 'https://www.brewly.ae/',
     icon: Coffee,
@@ -69,8 +78,10 @@ const projects: Project[] = [
   {
     title: 'Pixel Ramp',
     category: 'Creative Agency',
-    description:
-      'Creative agency website with cutting-edge UI/UX, interactive sections, micro-animations, and a fully responsive layout that brings the brand to life.',
+    problem:
+      'As an agency, our own site needed to prove our capability on first impression, and a generic template wouldn’t convince clients we could build something distinctive.',
+    solution:
+      'We designed and built a site with bold UI/UX, interactive sections, and micro-animations that functions as a live portfolio piece in itself.',
     tags: ['UI/UX', 'Animations', 'Responsive'],
     url: 'https://www.pixel-ramp.com/',
     icon: Palette,
@@ -79,8 +90,10 @@ const projects: Project[] = [
   {
     title: 'BabaHub',
     category: 'Multi-Vendor Marketplace',
-    description:
-      'Multi-vendor marketplace connecting businesses and consumers with advanced search, secure payment processing, and dedicated vendor dashboards.',
+    problem:
+      'Independent vendors had no shared platform to reach consumers, and buyers had no single place to discover and purchase from multiple sellers with confidence.',
+    solution:
+      'We built a multi-vendor marketplace with advanced search, secure payment processing, and dedicated vendor dashboards, giving vendors their own storefront and buyers a trusted checkout.',
     tags: ['Multi-vendor', 'Advanced Search', 'Secure Payments'],
     url: 'https://babahub.co/',
     icon: ShoppingBag,
@@ -89,8 +102,10 @@ const projects: Project[] = [
   {
     title: 'ShipSense',
     category: 'AI Logistics',
-    description:
-      'AI-powered logistics intelligence platform with real-time shipment tracking, predictive analytics, an agentic chatbot, automated notifications, and a comprehensive dashboard.',
+    problem:
+      'Logistics teams lacked real-time visibility into shipments and had no way to anticipate delays before they became costly problems.',
+    solution:
+      'We built an AI-powered logistics platform with real-time tracking, predictive analytics, an agentic chatbot, and automated notifications that turns raw shipment data into proactive decisions.',
     tags: ['AI / ML', 'Predictive Analytics', 'Real-time Tracking'],
     url: 'https://ship-sense.vercel.app/',
     icon: Ship,
@@ -135,7 +150,17 @@ export default function PortfolioPage() {
                 <div className="flex flex-col flex-1 p-6">
                   <p className="text-xs text-blue-500 font-semibold uppercase tracking-wide mb-1">{project.category}</p>
                   <h2 className="text-xl font-bold mb-3 group-hover:text-blue-500 transition-colors">{project.title}</h2>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-4 flex-1">{project.description}</p>
+
+                  <div className="flex-1 space-y-3 mb-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">The Challenge</p>
+                      <p className="text-slate-400 text-sm leading-relaxed">{project.problem}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Our Solution</p>
+                      <p className="text-slate-400 text-sm leading-relaxed">{project.solution}</p>
+                    </div>
+                  </div>
 
                   <div className="flex flex-wrap gap-2 mb-5">
                     {project.tags.map((tag) => (
