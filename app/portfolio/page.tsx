@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   ExternalLink,
@@ -18,6 +17,8 @@ import {
 import Section from '@/components/ui/Section';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
 
+type Visual = 'dashboard' | 'security' | 'marketplace' | 'ecommerce' | 'creative' | 'vendor' | 'logistics';
+
 type Project = {
   title: string;
   category: string;
@@ -27,14 +28,8 @@ type Project = {
   url: string;
   icon: LucideIcon;
   gradient: string;
+  visual: Visual;
 };
-
-// Live screenshot of the project URL via WordPress's free mshots service.
-// On a site's very first request it may briefly return a "generating…" placeholder
-// before the real screenshot is cached — reload the page a moment later if so.
-function getScreenshotUrl(url: string) {
-  return `https://s0.wp.com/mshots/v1/${encodeURIComponent(url)}?w=800&h=500`;
-}
 
 const projects: Project[] = [
   {
@@ -48,6 +43,7 @@ const projects: Project[] = [
     url: 'https://truesofts-nine.vercel.app/',
     icon: Layers,
     gradient: 'from-blue-600 to-indigo-600',
+    visual: 'dashboard',
   },
   {
     title: 'Visitor Management System',
@@ -60,6 +56,7 @@ const projects: Project[] = [
     url: 'https://visitor-management-sa.vercel.app/',
     icon: ShieldCheck,
     gradient: 'from-emerald-600 to-teal-600',
+    visual: 'security',
   },
   {
     title: 'FleetXchange Africa',
@@ -72,6 +69,7 @@ const projects: Project[] = [
     url: 'http://fleetxchange.africa/',
     icon: Truck,
     gradient: 'from-orange-600 to-amber-600',
+    visual: 'marketplace',
   },
   {
     title: 'Brewly',
@@ -84,6 +82,7 @@ const projects: Project[] = [
     url: 'https://www.brewly.ae/',
     icon: Coffee,
     gradient: 'from-rose-600 to-pink-600',
+    visual: 'ecommerce',
   },
   {
     title: 'Pixel Ramp',
@@ -96,6 +95,7 @@ const projects: Project[] = [
     url: 'https://www.pixel-ramp.com/',
     icon: Palette,
     gradient: 'from-fuchsia-600 to-purple-600',
+    visual: 'creative',
   },
   {
     title: 'BabaHub',
@@ -108,6 +108,7 @@ const projects: Project[] = [
     url: 'https://babahub.co/',
     icon: ShoppingBag,
     gradient: 'from-cyan-600 to-blue-600',
+    visual: 'vendor',
   },
   {
     title: 'ShipSense',
@@ -120,8 +121,135 @@ const projects: Project[] = [
     url: 'https://ship-sense.vercel.app/',
     icon: Ship,
     gradient: 'from-violet-600 to-purple-600',
+    visual: 'logistics',
   },
 ];
+
+// Illustrated product mockups — not literal screenshots, but a stylized UI
+// matching what each product actually does, so the card gives an honest
+// impression of the software without claiming to be a live capture.
+function ProjectVisual({ variant }: { variant: Visual }) {
+  const chrome = 'fill-white/15';
+  const chromeStrong = 'fill-white/30';
+  const line = 'fill-white/25';
+
+  switch (variant) {
+    case 'dashboard':
+      return (
+        <svg viewBox="0 0 400 250" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+          <rect x="16" y="16" width="90" height="218" rx="8" className={chrome} />
+          {[0, 1, 2, 3, 4].map((i) => (
+            <rect key={i} x="30" y={40 + i * 30} width={i === 1 ? 60 : 46} height="8" rx="4" className={i === 1 ? chromeStrong : line} />
+          ))}
+          <rect x="122" y="16" width="262" height="34" rx="8" className={chrome} />
+          <circle cx="360" cy="33" r="10" className={chromeStrong} />
+          {[0, 1, 2].map((i) => (
+            <rect key={i} x={122 + i * 90} y="64" width="78" height="52" rx="8" className={chrome} />
+          ))}
+          <rect x="122" y="130" width="262" height="104" rx="8" className={chrome} />
+          {[38, 62, 48, 74, 56, 82, 44].map((h, i) => (
+            <rect key={i} x={140 + i * 32} y={222 - h} width="18" height={h} rx="3" className={chromeStrong} />
+          ))}
+        </svg>
+      );
+    case 'security':
+      return (
+        <svg viewBox="0 0 400 250" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+          <path d="M200 24 L262 46 V108 C262 152 236 186 200 200 C164 186 138 152 138 108 V46 Z" className="fill-white/10" />
+          <path d="M182 108 L196 122 L222 92" fill="none" stroke="white" strokeOpacity="0.55" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="30" y="150" width="150" height="80" rx="10" className={chrome} />
+          <circle cx="58" cy="178" r="14" className={chromeStrong} />
+          <rect x="82" y="170" width="80" height="7" rx="3.5" className={line} />
+          <rect x="82" y="184" width="56" height="7" rx="3.5" className={line} />
+          <rect x="46" y="204" width="118" height="14" rx="7" className="fill-emerald-300/40" />
+          <rect x="242" y="150" width="128" height="80" rx="10" className={chrome} />
+          {[0, 1, 2].map((i) => (
+            <g key={i}>
+              <circle cx="262" cy={172 + i * 18} r="5" className="fill-emerald-300/70" />
+              <rect x="276" y={168 + i * 18} width="78" height="7" rx="3.5" className={line} />
+            </g>
+          ))}
+        </svg>
+      );
+    case 'marketplace':
+      return (
+        <svg viewBox="0 0 400 250" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+          <rect x="16" y="16" width="368" height="30" rx="15" className={chrome} />
+          <circle cx="34" cy="31" r="7" className={chromeStrong} />
+          <rect x="50" y="26" width="120" height="10" rx="5" className={line} />
+          {[0, 1, 2, 3].map((i) => (
+            <g key={i} transform={`translate(${16 + (i % 2) * 190}, ${64 + Math.floor(i / 2) * 90})`}>
+              <rect width="176" height="80" rx="10" className={chrome} />
+              <rect x="12" y="12" width="70" height="46" rx="6" className={chromeStrong} />
+              <rect x="92" y="16" width="70" height="8" rx="4" className={line} />
+              <rect x="92" y="32" width="50" height="8" rx="4" className={line} />
+              <rect x="92" y="54" width="42" height="14" rx="7" className="fill-amber-300/40" />
+            </g>
+          ))}
+        </svg>
+      );
+    case 'ecommerce':
+      return (
+        <svg viewBox="0 0 400 250" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+          <rect x="16" y="16" width="220" height="10" rx="5" className={chromeStrong} />
+          <circle cx="368" cy="26" r="16" className={chrome} />
+          <circle cx="374" cy="20" r="6" className="fill-rose-300/60" />
+          {[0, 1, 2, 3].map((i) => (
+            <g key={i} transform={`translate(${16 + (i % 2) * 190}, ${52 + Math.floor(i / 2) * 92})`}>
+              <rect width="176" height="80" rx="10" className={chrome} />
+              <circle cx="40" cy="40" r="26" className={chromeStrong} />
+              <rect x="82" y="24" width="80" height="9" rx="4.5" className={line} />
+              <rect x="82" y="42" width="56" height="9" rx="4.5" className={line} />
+              <rect x="82" y="60" width="38" height="14" rx="7" className="fill-rose-300/40" />
+            </g>
+          ))}
+        </svg>
+      );
+    case 'creative':
+      return (
+        <svg viewBox="0 0 400 250" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+          <circle cx="330" cy="60" r="70" className="fill-white/10" />
+          <circle cx="60" cy="200" r="50" className="fill-white/10" />
+          <rect x="32" y="70" width="220" height="20" rx="10" className={chromeStrong} />
+          <rect x="32" y="100" width="150" height="12" rx="6" className={line} />
+          <rect x="32" y="160" width="90" height="34" rx="17" className="fill-white/25" />
+          {[0, 1, 2].map((i) => (
+            <rect key={i} x={230 + i * 44} y="150" width="30" height="30" rx="8" className={chrome} />
+          ))}
+        </svg>
+      );
+    case 'vendor':
+      return (
+        <svg viewBox="0 0 400 250" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+          <rect x="16" y="16" width="368" height="28" rx="14" className={chrome} />
+          <circle cx="32" cy="30" r="6" className={chromeStrong} />
+          <rect x="46" y="25" width="140" height="10" rx="5" className={line} />
+          {[0, 1, 2, 3].map((i) => (
+            <g key={i} transform={`translate(${16 + i * 92}, 62)`}>
+              <rect width="80" height="100" rx="10" className={chrome} />
+              <circle cx="40" cy="34" r="20" className={chromeStrong} />
+              <rect x="14" y="62" width="52" height="8" rx="4" className={line} />
+              <rect x="22" y="78" width="36" height="8" rx="4" className="fill-amber-300/40" />
+            </g>
+          ))}
+        </svg>
+      );
+    case 'logistics':
+      return (
+        <svg viewBox="0 0 400 250" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+          <rect x="16" y="16" width="368" height="218" rx="10" className="fill-white/8" />
+          <path d="M40 190 C110 120 150 200 220 110 S330 60 372 40" fill="none" stroke="white" strokeOpacity="0.35" strokeWidth="4" strokeDasharray="2 10" strokeLinecap="round" />
+          <circle cx="40" cy="190" r="9" className="fill-white/50" />
+          <circle cx="220" cy="110" r="9" className="fill-violet-300/70" />
+          <circle cx="372" cy="40" r="9" className="fill-white/50" />
+          <rect x="230" y="150" width="140" height="66" rx="10" className={chrome} />
+          <rect x="244" y="162" width="60" height="8" rx="4" className={line} />
+          <rect x="244" y="178" width="90" height="8" rx="4" className={line} />
+          <rect x="244" y="194" width="46" height="12" rx="6" className="fill-violet-300/40" />
+        </svg>
+      );
+  }
+}
 
 export default function PortfolioPage() {
   return (
@@ -150,14 +278,10 @@ export default function PortfolioPage() {
                 className="group flex flex-col h-full bg-slate-900/50 rounded-xl overflow-hidden border border-slate-800 hover:border-blue-600/50 transition-all backdrop-blur-sm"
               >
                 <div className={`relative h-44 bg-gradient-to-br ${project.gradient} overflow-hidden`}>
-                  <Image
-                    src={getScreenshotUrl(project.url)}
-                    alt={`${project.title} — live site screenshot`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-top opacity-95 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  <div className="absolute inset-0 p-4 opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500">
+                    <ProjectVisual variant={project.visual} />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                   <span className="absolute top-3 left-3 flex items-center justify-center w-9 h-9 rounded-lg bg-black/40 backdrop-blur-sm">
                     <Icon className="text-white" size={18} />
                   </span>

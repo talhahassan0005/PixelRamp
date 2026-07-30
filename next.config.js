@@ -1,14 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 's0.wp.com',
-        pathname: '/mshots/**',
-      },
-    ],
-  },
-}
+const nextConfig = {}
 
 module.exports = nextConfig
