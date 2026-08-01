@@ -1,70 +1,16 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Code2, Palette, Rocket, Smartphone } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import CalendlyWidget from '@/components/CalendlyWidget';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { services } from '@/lib/services-content';
 
-const services = [
-  {
-    icon: Code2,
-    id: 'web',
-    title: 'Web Development',
-    tagline: 'Your business deserves more than a template.',
-    desc: 'From landing pages to complex web applications — we build fast, scalable, and conversion-focused websites tailored to your goals.',
-    outcomes: ['More leads from organic & paid traffic', 'Professional credibility that builds trust', 'Scalable architecture that grows with you'],
-    packages: [
-      { name: 'Starter', price: 'From £300', for: 'New businesses & MVPs' },
-      { name: 'Business', price: 'From £1,199', for: 'Growing companies' },
-      { name: 'Enterprise', price: 'From £2,200', for: 'Complex web applications' },
-    ],
-  },
-  {
-    icon: Palette,
-    id: 'design',
-    title: 'Graphics & Branding',
-    tagline: 'First impressions are built on design.',
-    desc: 'A strong brand identity sets you apart. We create visual systems that communicate your value instantly and consistently.',
-    outcomes: ['Brand recognition that sticks', 'Consistent identity across all channels', 'Design that attracts your ideal client'],
-    packages: [
-      { name: 'Essential', price: 'From £149', for: 'Startups & solo founders' },
-      { name: 'Corporate', price: 'From £299', for: 'Established businesses' },
-      { name: 'Elite', price: 'From £600', for: 'Premium brand systems' },
-    ],
-  },
-  {
-    icon: Rocket,
-    id: 'saas',
-    title: 'SaaS Solutions',
-    tagline: 'Turn your idea into a product people pay for.',
-    desc: 'We build SaaS platforms from scratch — authentication, billing, dashboards, APIs. Everything you need to launch and scale.',
-    outcomes: ['Launch faster with a validated MVP', 'Recurring revenue from day one', 'Architecture built to handle growth'],
-    packages: [
-      { name: 'MVP Launch', price: 'From £1,500', for: 'First-time SaaS founders' },
-      { name: 'Scale-Up', price: 'From £2,300', for: 'Growing SaaS products' },
-      { name: 'Enterprise', price: 'From £3,000', for: 'Large-scale platforms' },
-    ],
-  },
-  {
-    icon: Smartphone,
-    id: 'apps',
-    title: 'Mobile Apps',
-    tagline: 'Your customers are on their phones. Be there.',
-    desc: 'Native and cross-platform mobile apps that deliver real value. Built for performance, designed for engagement.',
-    outcomes: ['Reach users on iOS & Android', 'Higher engagement than mobile web', 'App Store presence that builds authority'],
-    packages: [
-      { name: 'Basic App', price: 'From £500', for: 'Single-platform apps' },
-      { name: 'Pro App', price: 'From £999', for: 'Cross-platform apps' },
-      { name: 'Advanced', price: 'From £2,000', for: 'Complex real-time apps' },
-    ],
-  },
-];
+const buildServices = services.filter((s) => s.category === 'Build');
+const consultingServices = services.filter((s) => s.category === 'Consulting');
 
 export default function ServicesPage() {
-  const { t } = useLanguage();
-
   return (
     <>
       {/* Hero — Consultation first */}
@@ -78,7 +24,7 @@ export default function ServicesPage() {
             </span>
           </h1>
           <p className="text-xl text-slate-300 mb-4">
-            Every project starts with a free consultation. We listen to your goals and recommend 
+            Every project starts with a free consultation. We listen to your goals and recommend
             the right solution — not the most expensive one.
           </p>
           <p className="text-slate-500 mb-10">
@@ -118,69 +64,38 @@ export default function ServicesPage() {
         </StaggerContainer>
       </Section>
 
-      {/* Services — shown as outcomes, packages secondary */}
-      <div id="services">
-        {services.map((service, idx) => (
-          <Section
-            key={service.id}
-            className={`border-t border-slate-800 ${idx % 2 === 0 ? 'bg-slate-950' : 'bg-slate-900'}`}
-          >
-            <div className="max-w-5xl mx-auto">
-              <FadeIn className="grid md:grid-cols-2 gap-12 items-center mb-12">
-                {/* Left: outcome-focused copy */}
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center">
-                      <service.icon className="text-blue-500" size={24} />
-                    </div>
-                    <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">{service.title}</span>
-                  </div>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-3">{service.tagline}</h2>
-                  <p className="text-slate-400 mb-6 leading-relaxed">{service.desc}</p>
-                  <ul className="space-y-3 mb-8">
-                    {service.outcomes.map((outcome) => (
-                      <li key={outcome} className="flex items-start gap-3">
-                        <CheckCircle size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-slate-300 text-sm">{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <CalendlyWidget
-                    buttonText={`Discuss Your ${service.title} Project`}
-                    className="px-6 py-3"
-                  />
-                </div>
+      {/* Build services */}
+      <Section id="services" className="bg-slate-950 border-t border-slate-800">
+        <FadeIn className="text-center mb-12">
+          <span className="text-blue-500 font-semibold text-sm uppercase tracking-wider">Build</span>
+          <h2 className="text-4xl font-bold mt-3">Development &amp; Design</h2>
+        </FadeIn>
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {buildServices.map((service) => (
+            <StaggerItem key={service.id}>
+              <ServiceCard service={service} />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </Section>
 
-                {/* Right: packages as reference, not primary CTA */}
-                <div className="space-y-3">
-                  <p className="text-slate-500 text-xs uppercase tracking-widest font-semibold mb-4">
-                    Typical Investment Range
-                  </p>
-                  {service.packages.map((pkg) => (
-                    <motion.div
-                      key={pkg.name}
-                      whileHover={{ x: 4 }}
-                      className="flex items-center justify-between p-4 bg-slate-800/60 rounded-xl border border-slate-700 hover:border-blue-600/40 transition-all"
-                    >
-                      <div>
-                        <p className="font-semibold text-slate-100">{pkg.name}</p>
-                        <p className="text-xs text-slate-500 mt-0.5">{pkg.for}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-blue-400 font-bold">{pkg.price}</p>
-                        <p className="text-xs text-slate-600 mt-0.5">after consultation</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                  <p className="text-slate-600 text-xs mt-4 text-center">
-                    * Exact pricing determined after your free consultation
-                  </p>
-                </div>
-              </FadeIn>
-            </div>
-          </Section>
-        ))}
-      </div>
+      {/* Consultancy services */}
+      <Section className="bg-slate-900 border-t border-slate-800">
+        <FadeIn className="text-center mb-12">
+          <span className="text-blue-500 font-semibold text-sm uppercase tracking-wider">Consultancy</span>
+          <h2 className="text-4xl font-bold mt-3">Advisory &amp; Strategy</h2>
+          <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
+            Not ready to build yet? We help you figure out what to build, and how to run what you already have.
+          </p>
+        </FadeIn>
+        <StaggerContainer className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {consultingServices.map((service) => (
+            <StaggerItem key={service.id}>
+              <ServiceCard service={service} />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </Section>
 
       {/* Bottom CTA */}
       <Section className="bg-gradient-to-br from-blue-600/10 via-slate-900 to-purple-600/10 border-t border-slate-800">
@@ -199,5 +114,23 @@ export default function ServicesPage() {
         </FadeIn>
       </Section>
     </>
+  );
+}
+
+function ServiceCard({ service }: { service: (typeof services)[number] }) {
+  return (
+    <Link
+      href={`/services/${service.id}`}
+      className="group flex flex-col h-full p-6 bg-slate-800/50 rounded-xl border border-slate-700 hover:border-blue-600/50 transition-all"
+    >
+      <div className="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-4">
+        <service.icon className="text-blue-500" size={24} />
+      </div>
+      <h3 className="text-xl font-bold mb-2 group-hover:text-blue-500 transition-colors">{service.title}</h3>
+      <p className="text-slate-400 text-sm mb-6 flex-1">{service.tagline}</p>
+      <span className="inline-flex items-center gap-2 text-blue-500 font-semibold text-sm group-hover:gap-3 transition-all">
+        Learn More <ArrowRight size={16} />
+      </span>
+    </Link>
   );
 }
