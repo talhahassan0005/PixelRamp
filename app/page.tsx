@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Clock, Lightbulb, Target, TrendingUp, Users, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock, Hourglass, Lightbulb, Target, TrendingUp, Users, UserX, Wallet, Zap } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
@@ -86,24 +86,26 @@ export default function Home() {
         <StaggerContainer className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {[
             {
-              emoji: '😤',
+              icon: UserX,
               problem: 'Hired the wrong agency',
               desc: 'They promised everything, delivered a generic template, and disappeared after payment.',
             },
             {
-              emoji: '💸',
+              icon: Wallet,
               problem: 'Overpaid for the wrong solution',
               desc: 'You paid for features you didn\'t need and missed the ones that actually matter for your business.',
             },
             {
-              emoji: '⏳',
+              icon: Hourglass,
               problem: 'Months wasted, no results',
               desc: 'The project dragged on, the scope kept changing, and the final product didn\'t match the vision.',
             },
           ].map((item) => (
             <StaggerItem key={item.problem}>
               <div className="p-6 bg-slate-800/50 rounded-2xl border border-slate-700 text-center">
-                <div className="text-4xl mb-4">{item.emoji}</div>
+                <div className="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                  <item.icon className="text-red-400" size={26} />
+                </div>
                 <h3 className="text-lg font-bold mb-2 text-slate-100">{item.problem}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
               </div>

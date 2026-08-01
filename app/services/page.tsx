@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Target, Lightbulb, ClipboardList } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import CalendlyWidget from '@/components/CalendlyWidget';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/AnimatedSection';
@@ -49,13 +49,15 @@ export default function ServicesPage() {
       <Section className="bg-slate-900 border-t border-slate-800 py-12">
         <StaggerContainer className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto text-center">
           {[
-            { icon: '🎯', title: 'Clarity on What You Need', desc: 'We help you define the right scope before spending a penny.' },
-            { icon: '💡', title: 'Honest Recommendation', desc: 'We tell you what will work — and what won\'t. No upselling.' },
-            { icon: '📋', title: 'A Clear Roadmap', desc: 'You leave with a plan: timeline, budget range, and next steps.' },
+            { icon: Target, title: 'Clarity on What You Need', desc: 'We help you define the right scope before spending a penny.' },
+            { icon: Lightbulb, title: 'Honest Recommendation', desc: 'We tell you what will work — and what won\'t. No upselling.' },
+            { icon: ClipboardList, title: 'A Clear Roadmap', desc: 'You leave with a plan: timeline, budget range, and next steps.' },
           ].map((item) => (
             <StaggerItem key={item.title}>
               <div className="p-6 bg-slate-800/50 rounded-xl border border-slate-700">
-                <div className="text-3xl mb-3">{item.icon}</div>
+                <div className="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-3 mx-auto">
+                  <item.icon className="text-blue-500" size={22} />
+                </div>
                 <h3 className="font-bold mb-2">{item.title}</h3>
                 <p className="text-slate-400 text-sm">{item.desc}</p>
               </div>
