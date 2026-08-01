@@ -34,14 +34,14 @@ export default function AdminDashboard() {
   return (
     <Section className="min-h-screen py-20">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Admin Dashboard</h1>
-          <button onClick={logout} className="px-4 py-2 bg-red-600 rounded hover:bg-red-700">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold">Admin Dashboard</h1>
+          <button onClick={logout} className="self-start sm:self-auto px-4 py-2 bg-red-600 rounded hover:bg-red-700">
             Logout
           </button>
         </div>
 
-        <div className="grid grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
             <h3 className="text-slate-400 mb-2">Total Users</h3>
             <p className="text-3xl font-bold">{stats.totalUsers}</p>
@@ -60,7 +60,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
             <h2 className="text-2xl font-bold mb-4">Recent Leads</h2>
             <div className="space-y-3">

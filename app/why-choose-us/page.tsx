@@ -118,13 +118,13 @@ export default function WhyChooseUsPage() {
         </div>
 
         <div className="max-w-4xl mx-auto rounded-xl border border-slate-800 overflow-hidden">
-          <div className="grid grid-cols-2 bg-slate-900">
-            <div className="p-4 text-center font-bold text-blue-500 border-r border-slate-800">With PixelRamp</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 bg-slate-900">
+            <div className="p-4 text-center font-bold text-blue-500 border-b sm:border-b-0 sm:border-r border-slate-800">With PixelRamp</div>
             <div className="p-4 text-center font-bold text-slate-500">With a Typical Agency</div>
           </div>
           {comparison.map((row) => (
-            <div key={row.us} className="grid grid-cols-2 border-t border-slate-800">
-              <div className="p-4 flex items-start gap-3 border-r border-slate-800 bg-blue-600/5">
+            <div key={row.us} className="grid grid-cols-1 sm:grid-cols-2 border-t border-slate-800">
+              <div className="p-4 flex items-start gap-3 border-b sm:border-b-0 sm:border-r border-slate-800 bg-blue-600/5">
                 <CheckCircle2 className="text-blue-500 shrink-0 mt-0.5" size={18} />
                 <span className="text-sm text-slate-300">{row.us}</span>
               </div>
@@ -168,7 +168,7 @@ export default function WhyChooseUsPage() {
         <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
           {t('trust_desc')}
         </p>
-        <div className="grid grid-cols-3 gap-6 max-w-xl mx-auto mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-xl mx-auto mb-8">
           <div>
             <p className="text-3xl font-bold text-blue-500">98%</p>
             <p className="text-sm text-slate-400">Client Satisfaction</p>

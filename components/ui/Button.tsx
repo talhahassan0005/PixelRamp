@@ -3,10 +3,15 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md';
 }
 
-export default function Button({ children, variant = 'primary', className = '', ...props }: ButtonProps) {
-  const baseStyles = 'px-6 py-3 rounded-lg font-semibold transition-all';
+export default function Button({ children, variant = 'primary', size = 'md', className = '', ...props }: ButtonProps) {
+  const sizes = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-6 py-3',
+  };
+  const baseStyles = `${sizes[size]} rounded-lg font-semibold transition-all`;
   const variants = {
     primary: 'bg-blue-600 hover:bg-blue-700 text-white',
     secondary: 'bg-slate-800 hover:bg-slate-700 text-slate-300',

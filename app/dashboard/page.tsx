@@ -248,12 +248,12 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <DashboardSidebar onOpenChat={() => window.dispatchEvent(new CustomEvent('openChatbot'))} activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="flex-1 px-6 py-8">
-          <div className="flex items-start justify-between mb-8">
+        <div className="flex-1 px-4 sm:px-6 py-6 sm:py-8 min-w-0">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-8">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold">{t('welcome_back_user')}, <span className="text-blue-400">{displayName}</span></h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{t('welcome_back_user')}, <span className="text-blue-400">{displayName}</span></h1>
             </div>
 
             <div className="flex items-center gap-3 relative">
@@ -551,8 +551,8 @@ export default function DashboardPage() {
                 <div className="text-sm text-slate-400">You have no projects yet. Start by requesting a quote.</div>
               )}
               {projects.map(p => (
-                <div key={p.id} className="flex items-center justify-between p-3 bg-slate-900/30 rounded">
-                  <div className="w-3/4">
+                <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-slate-900/30 rounded">
+                  <div className="sm:w-3/4 min-w-0">
                     <p className="font-semibold">{p.name}</p>
                     <p className="text-sm text-slate-400">{p.status} · Updated {p.updated}</p>
                     <div className="mt-2 bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -560,9 +560,9 @@ export default function DashboardPage() {
                     </div>
                     <p className="text-xs text-slate-400 mt-1">Status: {p.status}</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" onClick={() => router.push('/services')}>View</Button>
-                    <Button onClick={() => window.dispatchEvent(new CustomEvent('openChatbot', { detail: { projectName: p.name } }))}>Chat</Button>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Button size="sm" variant="ghost" onClick={() => router.push('/services')}>View</Button>
+                    <Button size="sm" onClick={() => window.dispatchEvent(new CustomEvent('openChatbot', { detail: { projectName: p.name } }))}>Chat</Button>
                   </div>
                 </div>
               ))}
@@ -645,8 +645,8 @@ export default function DashboardPage() {
                   <div className="text-sm text-slate-400">You have no projects yet. Start by requesting a quote.</div>
                 )}
                 {projects.map(p => (
-                  <div key={p.id} className="flex items-center justify-between p-3 bg-slate-900/30 rounded">
-                    <div className="w-3/4">
+                  <div key={p.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-slate-900/30 rounded">
+                    <div className="sm:w-3/4 min-w-0">
                       <p className="font-semibold">{p.name}</p>
                       <p className="text-sm text-slate-400">{p.status} · Updated {p.updated}</p>
                       <div className="mt-2 bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -654,9 +654,9 @@ export default function DashboardPage() {
                       </div>
                       <p className="text-xs text-slate-400 mt-1">Status: {p.status}</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" onClick={() => router.push('/services')}>View</Button>
-                      <Button onClick={() => window.dispatchEvent(new CustomEvent('openChatbot', { detail: { projectName: p.name } }))}>Chat</Button>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Button size="sm" variant="ghost" onClick={() => router.push('/services')}>View</Button>
+                      <Button size="sm" onClick={() => window.dispatchEvent(new CustomEvent('openChatbot', { detail: { projectName: p.name } }))}>Chat</Button>
                     </div>
                   </div>
                 ))}

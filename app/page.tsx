@@ -27,7 +27,7 @@ export default function Home() {
             Free 30-Minute Strategy Session — No Commitment
           </div>
 
-          <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
             Your Digital Vision,{' '}
             <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
               Built the Right Way

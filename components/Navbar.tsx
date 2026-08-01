@@ -28,7 +28,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800">
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 relative">
           <Link href="/" className="flex items-center gap-3">
             <img src="/images/pixelramp-logo.svg" alt="PixelRamp" className="w-10 h-10" />
@@ -78,7 +78,8 @@ export default function Navbar() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-slate-300 hover:text-blue-600"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              className="md:hidden -mr-2 p-2 text-slate-300 hover:text-blue-600"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>

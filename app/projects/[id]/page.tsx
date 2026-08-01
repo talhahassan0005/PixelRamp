@@ -85,14 +85,14 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
 
   return (
     <Section className="min-h-screen">
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <DashboardSidebar onOpenChat={() => window.dispatchEvent(new CustomEvent('openChatbot'))} />
-        <div className="flex-1 max-w-3xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex-1 max-w-3xl mx-auto w-full space-y-6 min-w-0">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">Edit Project</h1>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" onClick={() => router.push('/dashboard')}>Back</Button>
-            <Button variant="secondary" onClick={remove}>Delete</Button>
+            <Button size="sm" variant="ghost" onClick={() => router.push('/dashboard')}>Back</Button>
+            <Button size="sm" variant="secondary" onClick={remove}>Delete</Button>
           </div>
         </div>
 
