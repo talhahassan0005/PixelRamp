@@ -10,7 +10,7 @@ import { services } from '@/lib/services-content';
 const buildServices = services.filter((s) => s.category === 'Build');
 const consultingServices = services.filter((s) => s.category === 'Consulting');
 
-export default function ServicesPage() {
+export default function ServicesPageClient() {
   return (
     <>
       {/* Hero — Consultation first */}

@@ -15,7 +15,7 @@ import {
 import Section from '@/components/ui/Section';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-export default function WhyChooseUsPage() {
+export default function WhyChooseUsPageClient() {
   const { t } = useLanguage();
 
   const strengths = [

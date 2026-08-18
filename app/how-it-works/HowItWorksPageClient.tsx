@@ -5,7 +5,7 @@ import { MessageSquare, Code, Rocket } from 'lucide-react';
 import Section from '@/components/ui/Section';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-export default function HowItWorksPage() {
+export default function HowItWorksPageClient() {
   const { t } = useLanguage();
 
   const steps = [

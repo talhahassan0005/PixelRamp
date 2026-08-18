@@ -6,7 +6,7 @@ import Section from '@/components/ui/Section';
 import CalendlyWidget from '@/components/CalendlyWidget';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-export default function ContactPage() {
+export default function ContactPageClient() {
   const { t } = useLanguage();
 
   return (
