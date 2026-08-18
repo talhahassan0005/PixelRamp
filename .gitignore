@@ -4,3 +4,7 @@ node_modules/
 dist/
 .env
 .env*.local
+
+# next-sitemap output (regenerated on every build)
+public/sitemap.xml
+public/robots.txt

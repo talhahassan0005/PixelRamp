@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     apple: '/images/pixelramp-logo.svg',
     shortcut: '/images/pixelramp-logo.svg',
   },
+  verification: {
+    google: '50tvvXqkB2yl30V1MmIVrh1UsHpL3kkPKqDEXsx2B_8',
+  },
 };
 
 export default function RootLayout({
