@@ -9,16 +9,45 @@ import { LanguageProvider } from '@/contexts/LanguageContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.pixel-ramp.com'),
   title: 'PixelRamp — Digital Studio',
   description: 'PixelRamp — Web, Mobile & SaaS development for startups and SMEs',
+  keywords: ['PixelRamp', 'PixelRamp digital studio', 'web development agency', 'mobile app development', 'SaaS development'],
+  alternates: {
+    canonical: '/',
+  },
   icons: {
     icon: '/images/pixelramp-logo.svg',
     apple: '/images/pixelramp-logo.svg',
     shortcut: '/images/pixelramp-logo.svg',
   },
+  openGraph: {
+    type: 'website',
+    url: 'https://www.pixel-ramp.com',
+    siteName: 'PixelRamp',
+    title: 'PixelRamp — Digital Studio',
+    description: 'PixelRamp — Web, Mobile & SaaS development for startups and SMEs',
+    images: ['/images/pixelramp-logo.svg'],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'PixelRamp — Digital Studio',
+    description: 'PixelRamp — Web, Mobile & SaaS development for startups and SMEs',
+    images: ['/images/pixelramp-logo.svg'],
+  },
   verification: {
     google: '50tvvXqkB2yl30V1MmIVrh1UsHpL3kkPKqDEXsx2B_8',
   },
+};
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'PixelRamp',
+  alternateName: 'PixelRamp Digital Studio',
+  url: 'https://www.pixel-ramp.com',
+  logo: 'https://www.pixel-ramp.com/images/pixelramp-logo.svg',
+  description: 'PixelRamp — Web, Mobile & SaaS development for startups and SMEs',
 };
 
 export default function RootLayout({
@@ -29,6 +58,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {/* Calendly styles — loaded globally so popup works everywhere */}
         <link
           href="https://assets.calendly.com/assets/external/widget.css"
