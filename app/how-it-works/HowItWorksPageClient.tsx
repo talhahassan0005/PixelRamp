@@ -72,7 +72,7 @@ export default function HowItWorksPageClient() {
             <p className="text-slate-400">{t('discovery_planning')}</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-600 mb-2">4-12 Weeks</p>
+            <p className="text-4xl font-bold text-blue-600 mb-2">4-6 Weeks</p>
             <p className="text-slate-400">{t('design_development')}</p>
           </div>
           <div className="text-center">
