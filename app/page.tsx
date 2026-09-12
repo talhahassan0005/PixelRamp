@@ -50,8 +50,8 @@ export default function Home() {
               className="px-8 py-4 text-lg shadow-lg shadow-blue-600/30"
             />
             <Link href="/how-it-works">
-              <Button variant="secondary" className="px-8 py-4 text-lg border-slate-600 hover:border-blue-500">
-                See How It Works <ArrowRight size={18} className="ml-2" />
+              <Button variant="secondary" className="px-8 py-4 text-lg border-slate-600 hover:border-blue-500 inline-flex items-center justify-center whitespace-nowrap">
+                See How It Works <ArrowRight size={18} className="ml-2 shrink-0" />
               </Button>
             </Link>
           </div>
