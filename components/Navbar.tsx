@@ -35,7 +35,7 @@ export default function Navbar() {
             <span className="text-2xl font-bold text-blue-600">PixelRamp</span>
           </Link>
 
-          <div className="hidden md:flex flex-1 items-center justify-center gap-6 min-w-0">
+          <div className="hidden lg:flex flex-1 items-center justify-center gap-6 min-w-0">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -54,7 +54,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2 shrink-0">
             <Link
               href="/contact"
-              className={`hidden md:flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-colors ${
+              className={`hidden lg:flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-colors ${
                 pathname === '/contact'
                   ? 'border-blue-500 text-blue-400'
                   : 'border-slate-700 text-slate-200 hover:border-blue-500 hover:text-blue-400'
@@ -63,13 +63,13 @@ export default function Navbar() {
               <Mail size={16} />
               {t('contact')}
             </Link>
-            <CalendlyWidget buttonText="Book Meeting" className="hidden md:flex text-sm px-3 py-2" />
+            <CalendlyWidget buttonText="Book Meeting" className="hidden lg:flex text-sm px-3 py-2" />
             <LanguageSelector />
 
             {user && (
               <Link
                 href="/dashboard"
-                className="hidden md:flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                className="hidden lg:flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
               >
                 <User size={18} />
                 {t('dashboard')}
@@ -79,7 +79,7 @@ export default function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
-              className="md:hidden -mr-2 p-2 text-slate-300 hover:text-blue-600"
+              className="lg:hidden -mr-2 p-2 text-slate-300 hover:text-blue-600"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -87,7 +87,7 @@ export default function Navbar() {
         </div>
 
         {isOpen && (
-          <div className="md:hidden pb-4">
+          <div className="lg:hidden pb-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
